@@ -6,6 +6,7 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 
 # beginning of pygame
+#bruh
 pygame.init()
 
 # special variables
