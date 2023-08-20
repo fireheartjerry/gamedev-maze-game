@@ -69,7 +69,7 @@ WALLS = [
 def main(speed, player_x, player_y, player_val_x, player_val_y):
     global running
     while running:
-        FPS_clock.tick(100)
+        FPS_clock.tick(60)
 
         for event in py.event.get():
             if event.type == py.QUIT:
@@ -81,19 +81,17 @@ def main(speed, player_x, player_y, player_val_x, player_val_y):
         # WASD detection
         pressed = py.key.get_pressed()
         if pressed[py.K_w]:
-            player_y -= speed
+            player_val_y = -speed
         if pressed[py.K_s]:
-            player_y += speed
+            player_val_y = +speed
         if pressed[py.K_a]:
-            player_x -= speed
+            player_val_x = -speed
         if pressed[py.K_d]:
-            player_x += speed
+            player_val_x = +speed
 
         # movement mechanism
-        # player_x += player_val_x
-        # player_y += player_val_y
-        # player_val_x *= 0.9
-        # player_val_y *= 0.9
+        player_x += player_val_x
+        player_y += player_val_y
 
         # border detection
         if player_x < 0:
@@ -128,7 +126,7 @@ def main(speed, player_x, player_y, player_val_x, player_val_y):
             py.draw.rect(screen, RED, x)
 
         # a = False means creative mode xdxdxdxdxdxdxddxd
-        hack = False
+        hack = True
         if (any(player.colliderect(x) and not hack for x in WALLS)):
             player_x = 0
             player_y = 35
@@ -145,14 +143,8 @@ def main(speed, player_x, player_y, player_val_x, player_val_y):
 
 
 # difficulty selector
-difficulty = int(input("choose a dificulty from 1 to 4"))
-if difficulty == 1:
-    main(0.1, 0, 35, 0, 0)
-elif difficulty == 2:
-    main(0.15, 0, 35, 0, 0)
-elif difficulty == 3:
-    main(0.2, 0, 35, 0, 0)
-elif difficulty == 4:
-    main(0.5, 0, 35, 0, 0)
+difficulty = int(input("choose a dificulty from 1 to 4: "))
+if difficulty <= 4:
+    main(difficulty, 0, 35, 0, 0)
 elif difficulty not in [1, 2, 3, 4]:
-    difficulty = eval(input("Choose a difficulty, the higher the number, the harder it is(1-4) "))
+    difficulty = eval(input("Choose a difficulty, the higher the number, the harder it is(1-4): "))
