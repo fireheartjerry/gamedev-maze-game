@@ -67,6 +67,7 @@ WALLS = [
 
 # main() as function for starter
 def main(speed, player_x, player_y, player_vel_x, player_vel_y):
+    global running
     while running:
         FPS_clock.tick(30)
 
