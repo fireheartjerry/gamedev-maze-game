@@ -1,150 +1,145 @@
-import pygame as py
+import pygame
+import pygame.freetype
+from pygame.rect import Rect
+from pygame.sprite import Sprite
+from enum import Enum
 
 # starting variables
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-# beginning of py
-py.init()
-
 # special variables
-FPS_clock = py.time.Clock()
+FPS_clock = pygame.time.Clock()
+FONT = pygame.font.Font(None, 36)
 width = 1000
 height = 600
-screen = py.display.set_mode((width, height))
-py.display.set_caption("Maze Game!")
 
-game_font = py.font.SysFont('Impact', 40)
-screen.fill(BLACK)
+game_font = pygame.font.SysFont('Impact', 40)
 
 running = True
 
 WALLS = [
-    py.Rect(25, 0, 20, 540),
-    py.Rect(70, 0, 20, 200),
-    py.Rect(70, 230, 20, 375),
-    py.Rect(115, 0, 20, 200),
-    py.Rect(115, 0, 20, 540),
-    py.Rect(160, 0, 20, 200),
-    py.Rect(160, 230, 20, 375),
-    py.Rect(205, 0, 20, 200),
-    py.Rect(205, 0, 20, 540),
-    py.Rect(250, 0, 20, 200),
-    py.Rect(250, 230, 20, 375),
-    py.Rect(295, 0, 20, 540),
-    py.Rect(295, 0, 20, 200),
-    py.Rect(340, 230, 20, 375),
-    py.Rect(340, 0, 20, 200),
-    py.Rect(385, 0, 20, 540),
-    py.Rect(385, 0, 20, 200),
-    py.Rect(430, 230, 20, 375),
-    py.Rect(430, 0, 20, 200),
-    py.Rect(475, 0, 20, 540),
-    py.Rect(475, 0, 20, 200),
-    py.Rect(520, 50, 85, 85),
-    py.Rect(520, 160, 85, 85),
-    py.Rect(520, 270, 85, 85),
-    py.Rect(520, 380, 85, 85),
-    py.Rect(520, 490, 415, 85),
-    py.Rect(630, 50, 85, 85),
-    py.Rect(630, 160, 85, 85),
-    py.Rect(630, 270, 85, 85),
-    py.Rect(630, 380, 85, 85),
-    py.Rect(630, 490, 85, 85),
-    py.Rect(740, 50, 85, 85),
-    py.Rect(740, 160, 85, 85),
-    py.Rect(740, 270, 85, 85),
-    py.Rect(740, 380, 85, 85),
-    py.Rect(740, 490, 85, 85),
-    py.Rect(850, 50, 85, 85),
-    py.Rect(850, 160, 85, 85),
-    py.Rect(850, 270, 85, 85),
-    py.Rect(850, 380, 85, 85),
-    py.Rect(850, 490, 85, 85)
+    Rect(25, 0, 20, 540),
+    Rect(70, 0, 20, 200),
+    Rect(70, 230, 20, 375),
+    Rect(115, 0, 20, 200),
+    Rect(115, 0, 20, 540),
+    Rect(160, 0, 20, 200),
+    Rect(160, 230, 20, 375),
+    Rect(205, 0, 20, 200),
+    Rect(205, 0, 20, 540),
+    Rect(250, 0, 20, 200),
+    Rect(250, 230, 20, 375),
+    Rect(295, 0, 20, 540),
+    Rect(295, 0, 20, 200),
+    Rect(340, 230, 20, 375),
+    Rect(340, 0, 20, 200),
+    Rect(385, 0, 20, 540),
+    Rect(385, 0, 20, 200),
+    Rect(430, 230, 20, 375),
+    Rect(430, 0, 20, 200),
+    Rect(475, 0, 20, 540),
+    Rect(475, 0, 20, 200),
+    Rect(520, 50, 85, 85),
+    Rect(520, 160, 85, 85),
+    Rect(520, 270, 85, 85),
+    Rect(520, 380, 85, 85),
+    Rect(520, 490, 415, 85),
+    Rect(630, 50, 85, 85),
+    Rect(630, 160, 85, 85),
+    Rect(630, 270, 85, 85),
+    Rect(630, 380, 85, 85),
+    Rect(630, 490, 85, 85),
+    Rect(740, 50, 85, 85),
+    Rect(740, 160, 85, 85),
+    Rect(740, 270, 85, 85),
+    Rect(740, 380, 85, 85),
+    Rect(740, 490, 85, 85),
+    Rect(850, 50, 85, 85),
+    Rect(850, 160, 85, 85),
+    Rect(850, 270, 85, 85),
+    Rect(850, 380, 85, 85),
+    Rect(850, 490, 85, 85)
 ]
 
-# main() as function for starter
-def main(speed, player_x, player_y, player_val_x, player_val_y):
-    global running
+def create_surface_with_text(text: str, font_size: int, text_rgb: tuple[int, int, int], bg_rgb: tuple[int, int, int]) -> pygame.surface.Surface:
+    '''Returns a surface with text written on it'''
+    font = pygame.freetype.SysFont("Courier", font_size, bold=True)
+    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
+    return surface.convert_alpha()
+
+class UIElement(Sprite):
+    """ User interface element that can be added to a surface """
+
+    def __init__(self, center_position: tuple[int, int], text: str, font_size: int, bg_rgb: tuple[int, int, int], text_rgb: tuple[int, int, int]) -> None:
+        self.mouse_over = False  # indicates if the mouse is over the element
+
+        # create the default image
+        default_image = create_surface_with_text(
+            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb
+        )
+
+        # create the image that shows when mouse is over the element
+        highlighted_image = create_surface_with_text(
+            text=text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb
+        )
+
+        # add both images and their rects to lists
+        self.images = [default_image, highlighted_image]
+        self.rects = [
+            default_image.get_rect(center=center_position),
+            highlighted_image.get_rect(center=center_position),
+        ]
+
+        # calls the init method of the parent sprite class
+        super().__init__()
+
+    # properties that vary the image and its rect when the mouse is over the element
+    @property
+    def image(self):
+        return self.images[1] if self.mouse_over else self.images[0]
+
+    @property
+    def rect(self):
+        return self.rects[1] if self.mouse_over else self.rects[0]
+
+    def update(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            self.mouse_over = True
+        else:
+            self.mouse_over = False
+
+    def draw(self, surface):
+        """ Draws element onto a surface """
+        surface.blit(self.image, self.rect)
+
+def main():
+    pygame.init()
+
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Maze Game!")
+    screen.fill(BLACK)
+
+    ui_element = UIElement(
+        center_position=(500, 300),
+        font_size=30,
+        bg_rgb=BLACK,
+        text_rgb=WHITE,
+        text="Maze Game",
+    )
+
+    running = True
     while running:
-        FPS_clock.tick(60)
+        for event in pygame.event.get():
+            pass
 
-        for event in py.event.get():
-            if event.type == py.QUIT:
-                running = False
-
-        player_val_x = 0
-        player_val_y = 0
-
-        # WASD detection
-        pressed = py.key.get_pressed()
-        if pressed[py.K_w]:
-            player_val_y = -speed
-        if pressed[py.K_s]:
-            player_val_y = +speed
-        if pressed[py.K_a]:
-            player_val_x = -speed
-        if pressed[py.K_d]:
-            player_val_x = +speed
-
-        # movement mechanism
-        player_x += player_val_x
-        player_y += player_val_y
-
-        # border detection
-        if player_x < 0:
-            player_x = 0
-        elif player_y < 0:
-            player_y = 0
-        elif player_x > width - 15:
-            player_x = width - 15
-        elif player_y > height - 15:
-            player_y = height - 15
-
-        # initiation of player
-        player = py.Rect(player_x, player_y, 15, 15)
-        py.draw.rect(screen, WHITE, player)
-
-        # defining winning square
-        winning = py.Rect(940, 25, 65, 550)
-
-        # defining borders
-        bottom_border = py.Rect(0, 575, 1000, 25)
-        top_border = py.Rect(0, 0, 1000, 25)
-
-        # drawing winning square
-        py.draw.rect(screen, GREEN, winning)
-
-        # drawing borders
-        py.draw.rect(screen, RED, bottom_border)
-        py.draw.rect(screen, RED, top_border)
-
-        # drawing the wall part of maze
-        for x in WALLS:
-            py.draw.rect(screen, RED, x)
-
-        # a = False means creative mode xdxdxdxdxdxdxddxd
-        hack = True
-        if (any(player.colliderect(x) and not hack for x in WALLS)):
-            player_x = 0
-            player_y = 35
-
-        # if player reaches the end
-        if player.colliderect(winning):
-            screen.fill(BLACK)
-            ending = game_font.render("Congratulations on finishing! You win!", False, GREEN)
-            screen.blit(ending, (200, 250))
-
-        # updates display
-        py.display.update()
         screen.fill(BLACK)
+        ui_element.update(pygame.mouse.get_pos())
+        ui_element.draw(screen)
+        pygame.display.flip()
 
-
-# difficulty selector
-difficulty = int(input("choose a dificulty from 1 to 4: "))
-if difficulty <= 4:
-    main(difficulty, 0, 35, 0, 0)
-elif difficulty not in [1, 2, 3, 4]:
-    difficulty = eval(input("Choose a difficulty, the higher the number, the harder it is(1-4): "))
+if __name__ == "__main__":
+    main()
