@@ -13,57 +13,8 @@ BLACK = (0, 0, 0)
 
 # special variables
 FPS_clock = pygame.time.Clock()
-FONT = pygame.font.Font(None, 36)
 width = 1000
 height = 600
-
-game_font = pygame.font.SysFont('Impact', 40)
-
-running = True
-
-WALLS = [
-    Rect(25, 0, 20, 540),
-    Rect(70, 0, 20, 200),
-    Rect(70, 230, 20, 375),
-    Rect(115, 0, 20, 200),
-    Rect(115, 0, 20, 540),
-    Rect(160, 0, 20, 200),
-    Rect(160, 230, 20, 375),
-    Rect(205, 0, 20, 200),
-    Rect(205, 0, 20, 540),
-    Rect(250, 0, 20, 200),
-    Rect(250, 230, 20, 375),
-    Rect(295, 0, 20, 540),
-    Rect(295, 0, 20, 200),
-    Rect(340, 230, 20, 375),
-    Rect(340, 0, 20, 200),
-    Rect(385, 0, 20, 540),
-    Rect(385, 0, 20, 200),
-    Rect(430, 230, 20, 375),
-    Rect(430, 0, 20, 200),
-    Rect(475, 0, 20, 540),
-    Rect(475, 0, 20, 200),
-    Rect(520, 50, 85, 85),
-    Rect(520, 160, 85, 85),
-    Rect(520, 270, 85, 85),
-    Rect(520, 380, 85, 85),
-    Rect(520, 490, 415, 85),
-    Rect(630, 50, 85, 85),
-    Rect(630, 160, 85, 85),
-    Rect(630, 270, 85, 85),
-    Rect(630, 380, 85, 85),
-    Rect(630, 490, 85, 85),
-    Rect(740, 50, 85, 85),
-    Rect(740, 160, 85, 85),
-    Rect(740, 270, 85, 85),
-    Rect(740, 380, 85, 85),
-    Rect(740, 490, 85, 85),
-    Rect(850, 50, 85, 85),
-    Rect(850, 160, 85, 85),
-    Rect(850, 270, 85, 85),
-    Rect(850, 380, 85, 85),
-    Rect(850, 490, 85, 85)
-]
 
 def create_surface_with_text(text: str, font_size: int, text_rgb: tuple[int, int, int], bg_rgb: tuple[int, int, int]) -> pygame.surface.Surface:
     '''Returns a surface with text written on it'''
@@ -74,7 +25,7 @@ def create_surface_with_text(text: str, font_size: int, text_rgb: tuple[int, int
 class UIElement(Sprite):
     """ User interface element that can be added to a surface """
 
-    def __init__(self, center_position: tuple[int, int], text: str, font_size: int, bg_rgb: tuple[int, int, int], text_rgb: tuple[int, int, int]) -> None:
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb) -> None:
         self.mouse_over = False  # indicates if the mouse is over the element
 
         # create the default image
@@ -116,6 +67,7 @@ class UIElement(Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
 
+# main function
 def main():
     pygame.init()
 
