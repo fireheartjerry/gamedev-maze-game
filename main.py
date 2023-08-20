@@ -1,92 +1,97 @@
-import pygame
-# starting variables
-red = (255, 0, 0)
-green = (0, 255, 0)
-white = (255, 255, 255)
-black = (0, 0, 0)
+import pygame as py
 
-# beginning of pygame
-#bruh
-pygame.init()
+# starting variables
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# beginning of py
+py.init()
 
 # special variables
-FPS_clock = pygame.time.Clock()
+FPS_clock = py.time.Clock()
 width = 1000
 height = 600
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Maze Game!")
+screen = py.display.set_mode((width, height))
+py.display.set_caption("Maze Game!")
 
-game_font = pygame.font.SysFont('Impact', 40)
-screen.fill(black)
+game_font = py.font.SysFont('Impact', 40)
+screen.fill(BLACK)
 
-walls = [
-    pygame.Rect(25, 0, 20, 540),
-pygame.Rect(70, 0, 20, 200),
-pygame.Rect(70, 230, 20, 375),
-pygame.Rect(115, 0, 20, 200),
-pygame.Rect(115, 0, 20, 540),
-pygame.Rect(160, 0, 20, 200),
-pygame.Rect(160, 230, 20, 375),
-pygame.Rect(205, 0, 20, 200),
-pygame.Rect(205, 0, 20, 540),
-pygame.Rect(250, 0, 20, 200),
-pygame.Rect(250, 230, 20, 375),
-pygame.Rect(295, 0, 20, 540),
-pygame.Rect(295, 0, 20, 200),
-pygame.Rect(340, 230, 20, 375),
-pygame.Rect(340, 0, 20, 200),
-pygame.Rect(385, 0, 20, 540),
-pygame.Rect(385, 0, 20, 200),
-pygame.Rect(430, 230, 20, 375),
-pygame.Rect(430, 0, 20, 200),
-pygame.Rect(475, 0, 20, 540),
-pygame.Rect(475, 0, 20, 200),
- pygame.Rect(520, 50, 85, 85),
- pygame.Rect(520, 160, 85, 85),
- pygame.Rect(520, 270, 85, 85),
- pygame.Rect(520, 380, 85, 85),
- pygame.Rect(520, 490, 415, 85),
- pygame.Rect(630, 50, 85, 85),
- pygame.Rect(630, 160, 85, 85),
- pygame.Rect(630, 270, 85, 85),
- pygame.Rect(630, 380, 85, 85),
- pygame.Rect(630, 490, 85, 85),
- pygame.Rect(740, 50, 85, 85),
- pygame.Rect(740, 160, 85, 85),
- pygame.Rect(740, 270, 85, 85),
- pygame.Rect(740, 380, 85, 85),
- pygame.Rect(740, 490, 85, 85),
- pygame.Rect(850, 50, 85, 85),
- pygame.Rect(850, 160, 85, 85),
- pygame.Rect(850, 270, 85, 85),
- pygame.Rect(850, 380, 85, 85),
- pygame.Rect(850, 490, 85, 85)
+running = True
+
+WALLS = [
+    py.Rect(25, 0, 20, 540),
+    py.Rect(70, 0, 20, 200),
+    py.Rect(70, 230, 20, 375),
+    py.Rect(115, 0, 20, 200),
+    py.Rect(115, 0, 20, 540),
+    py.Rect(160, 0, 20, 200),
+    py.Rect(160, 230, 20, 375),
+    py.Rect(205, 0, 20, 200),
+    py.Rect(205, 0, 20, 540),
+    py.Rect(250, 0, 20, 200),
+    py.Rect(250, 230, 20, 375),
+    py.Rect(295, 0, 20, 540),
+    py.Rect(295, 0, 20, 200),
+    py.Rect(340, 230, 20, 375),
+    py.Rect(340, 0, 20, 200),
+    py.Rect(385, 0, 20, 540),
+    py.Rect(385, 0, 20, 200),
+    py.Rect(430, 230, 20, 375),
+    py.Rect(430, 0, 20, 200),
+    py.Rect(475, 0, 20, 540),
+    py.Rect(475, 0, 20, 200),
+    py.Rect(520, 50, 85, 85),
+    py.Rect(520, 160, 85, 85),
+    py.Rect(520, 270, 85, 85),
+    py.Rect(520, 380, 85, 85),
+    py.Rect(520, 490, 415, 85),
+    py.Rect(630, 50, 85, 85),
+    py.Rect(630, 160, 85, 85),
+    py.Rect(630, 270, 85, 85),
+    py.Rect(630, 380, 85, 85),
+    py.Rect(630, 490, 85, 85),
+    py.Rect(740, 50, 85, 85),
+    py.Rect(740, 160, 85, 85),
+    py.Rect(740, 270, 85, 85),
+    py.Rect(740, 380, 85, 85),
+    py.Rect(740, 490, 85, 85),
+    py.Rect(850, 50, 85, 85),
+    py.Rect(850, 160, 85, 85),
+    py.Rect(850, 270, 85, 85),
+    py.Rect(850, 380, 85, 85),
+    py.Rect(850, 490, 85, 85)
 ]
 
 # main() as function for starter
-def main(speed, player_x, player_y, player_vel_x, player_vel_y):
-    while True:
-        FPS_clock.tick(100)
+def main(speed, player_x, player_y, player_val_x, player_val_y):
+    global running
+    while running:
+        FPS_clock.tick(60)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
-        
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_w]:
-            player_vel_y -= speed
-        if pressed[pygame.K_s]:
-            player_vel_y += speed
-        if pressed[pygame.K_a]:
-            player_vel_x -= speed
-        if pressed[pygame.K_d]:
-            player_vel_x += speed
+        for event in py.event.get():
+            if event.type == py.QUIT:
+                running = False
+
+        player_val_x = 0
+        player_val_y = 0
+
+        # WASD detection
+        pressed = py.key.get_pressed()
+        if pressed[py.K_w]:
+            player_val_y = -speed
+        if pressed[py.K_s]:
+            player_val_y = +speed
+        if pressed[py.K_a]:
+            player_val_x = -speed
+        if pressed[py.K_d]:
+            player_val_x = +speed
 
         # movement mechanism
-        player_x += player_vel_x
-        player_y += player_vel_y
-        player_vel_x *= 0.9
-        player_vel_y *= 0.9
+        player_x += player_val_x
+        player_y += player_val_y
 
         # border detection
         if player_x < 0:
@@ -99,54 +104,47 @@ def main(speed, player_x, player_y, player_vel_x, player_vel_y):
             player_y = height - 15
 
         # initiation of player
-        player_controlled = pygame.Rect(player_x, player_y, 15, 15)
-        pygame.draw.rect(screen, white, player_controlled)
+        player = py.Rect(player_x, player_y, 15, 15)
+        py.draw.rect(screen, WHITE, player)
 
         # defining winning square
-        winning = pygame.Rect(940, 25, 65, 550)
+        winning = py.Rect(940, 25, 65, 550)
 
         # defining borders
-        bottom_border = pygame.Rect(0, 575, 1000, 25)
-        top_border = pygame.Rect(0, 0, 1000, 25)
+        bottom_border = py.Rect(0, 575, 1000, 25)
+        top_border = py.Rect(0, 0, 1000, 25)
 
         # drawing winning square
-        pygame.draw.rect(screen, green, winning)
+        py.draw.rect(screen, GREEN, winning)
 
         # drawing borders
-        pygame.draw.rect(screen, red, bottom_border)
-        pygame.draw.rect(screen, red, top_border)
+        py.draw.rect(screen, RED, bottom_border)
+        py.draw.rect(screen, RED, top_border)
 
         # drawing the wall part of maze
-        for x in walls:
-            pygame.draw.rect(screen, red, x)
+        for x in WALLS:
+            py.draw.rect(screen, RED, x)
 
         # a = False means creative mode xdxdxdxdxdxdxddxd
-        a = False
-        for x in walls:
-            if player_controlled.colliderect(x) and a:
-                player_x = 0
-                player_y = 35
+        hack = True
+        if (any(player.colliderect(x) and not hack for x in WALLS)):
+            player_x = 0
+            player_y = 35
 
         # if player reaches the end
-        if player_controlled.colliderect(winning):
-            screen.fill(black)
-            ending = game_font.render("Congratulations on finishing! You win!", False, green)
+        if player.colliderect(winning):
+            screen.fill(BLACK)
+            ending = game_font.render("Congratulations on finishing! You win!", False, GREEN)
             screen.blit(ending, (200, 250))
 
         # updates display
-        pygame.display.update()
-        screen.fill(black)
+        py.display.update()
+        screen.fill(BLACK)
 
 
 # difficulty selector
-difficulty = int(input("choose a dificulty from 1 to 4"))
-if difficulty == 1:
-    main(0.1, 0, 35, 0, 0)
-elif difficulty == 2:
-    main(0.15, 0, 35, 0, 0)
-elif difficulty == 3:
-    main(0.2, 0, 35, 0, 0)
-elif difficulty == 4:
-    main(0.5, 0, 35, 0, 0)
+difficulty = int(input("choose a dificulty from 1 to 4: "))
+if difficulty <= 4:
+    main(difficulty, 0, 35, 0, 0)
 elif difficulty not in [1, 2, 3, 4]:
-    difficulty = eval(input("Choose a difficulty, the higher the number, the harder it is(1-4) "))
+    difficulty = eval(input("Choose a difficulty, the higher the number, the harder it is(1-4): "))
