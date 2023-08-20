@@ -23,21 +23,24 @@ def main():
     screen.fill(BLACK)
 
     quit_btn = UIElement(
-        center_position=(400, 500),
-        font_size=30,
-        bg_rgb=BLUE,
+        center_position=(500, 500),
+        font_size=50,
+        bg_rgb=None,
         text_rgb=WHITE,
         text="Quit",
         action=GameState.QUIT,
     )
 
-    running = True
-    while running:
+    while True:
+        mouse_up = False
         for event in pygame.event.get():
-            pass
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
 
         screen.fill(BLACK)
-        quit_btn.update(pygame.mouse.get_pos())
+        ui_action = quit_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return
         quit_btn.draw(screen)
         pygame.display.flip()
 
