@@ -16,17 +16,17 @@ height = 600
 
 def title_screen(screen):
     start_btn = UIElement(
-        center_position=(400, 400),
+        center_position=(500, 400),
         font_size=30,
-        bg_rgb=BLUE,
+        bg_rgb=None,
         text_rgb=WHITE,
         text="Start",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(400, 500),
+        center_position=(500, 500),
         font_size=30,
-        bg_rgb=BLUE,
+        bg_rgb=None,
         text_rgb=WHITE,
         text="Quit",
         action=GameState.QUIT,
@@ -39,7 +39,7 @@ def title_screen(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        screen.fill(BLUE)
+        screen.fill(BLACK)
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
@@ -52,9 +52,9 @@ def title_screen(screen):
 
 def play_level(screen):
     return_btn = UIElement(
-        center_position=(140, 570),
+        center_position=(160, 570),
         font_size=20,
-        bg_rgb=BLUE,
+        bg_rgb=None,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
@@ -65,7 +65,7 @@ def play_level(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        screen.fill(BLUE)
+        screen.fill(BLACK)
 
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
@@ -78,7 +78,7 @@ def play_level(screen):
 def main():
     pygame.init()
 
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1000, 600))
     game_state = GameState.TITLE
 
     while True:
