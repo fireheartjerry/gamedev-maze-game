@@ -66,31 +66,34 @@ WALLS = [
 ]
 
 # main() as function for starter
-def main(speed, player_x, player_y, player_vel_x, player_vel_y):
+def main(speed, player_x, player_y, player_val_x, player_val_y):
     global running
     while running:
-        FPS_clock.tick(30)
+        FPS_clock.tick(100)
 
         for event in py.event.get():
             if event.type == py.QUIT:
                 running = False
 
+        player_val_x = 0
+        player_val_y = 0
+
         # WASD detection
         pressed = py.key.get_pressed()
         if pressed[py.K_w]:
-            player_vel_y -= speed
+            player_y -= speed
         if pressed[py.K_s]:
-            player_vel_y += speed
+            player_y += speed
         if pressed[py.K_a]:
-            player_vel_x -= speed
+            player_x -= speed
         if pressed[py.K_d]:
-            player_vel_x += speed
+            player_x += speed
 
         # movement mechanism
-        player_x += player_vel_x
-        player_y += player_vel_y
-        player_vel_x *= 0.9
-        player_vel_y *= 0.9
+        # player_x += player_val_x
+        # player_y += player_val_y
+        # player_val_x *= 0.9
+        # player_val_y *= 0.9
 
         # border detection
         if player_x < 0:
@@ -126,7 +129,7 @@ def main(speed, player_x, player_y, player_vel_x, player_vel_y):
 
         # a = False means creative mode xdxdxdxdxdxdxddxd
         hack = False
-        if (any(player.colliderect(x) and hack for x in WALLS)):
+        if (any(player.colliderect(x) and not hack for x in WALLS)):
             player_x = 0
             player_y = 35
 
