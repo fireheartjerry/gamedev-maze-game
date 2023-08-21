@@ -11,3 +11,4 @@ class GameState(Enum):
     TITLE = 0
     NEWGAME = 1
     NEXT_LEVEL = 2
+    RESET_POS = 3

@@ -29,24 +29,24 @@ def title_screen(screen):
 
 def play_level(screen, player):
     return_btn = UIElement(
-        center_position=(200, 570),
-        font_size=20,
+        center_position=(140, 570),
+        font_size=15,
         bg_rgb=None,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
 
-    nextlevel_btn = UIElement(
-        center_position=(500, 300),
-        font_size=30,
+    reset_pos_btn = UIElement(
+        center_position=(880, 570),
+        font_size=15,
         bg_rgb=None,
         text_rgb=WHITE,
-        text=f"Next level ({player.level + 1})",
+        text=f"Reset Position",
         action=GameState.NEXT_LEVEL,
     )
 
-    buttons = RenderUpdates(return_btn, nextlevel_btn)
+    buttons = RenderUpdates(return_btn, reset_pos_btn)
 
     return game_loop(screen, buttons)
 

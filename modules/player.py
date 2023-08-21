@@ -5,3 +5,6 @@ class Player:
         self.score = score
         self.lives = lives
         self.level = level
+        self.x = 0
+        self.y = 35
+        self.hack = False
