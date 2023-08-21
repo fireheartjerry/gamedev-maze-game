@@ -29,7 +29,7 @@ def title_screen(screen):
 
 def play_level(screen, player):
     return_btn = UIElement(
-        center_position=(170, 570),
+        center_position=(200, 570),
         font_size=20,
         bg_rgb=None,
         text_rgb=WHITE,

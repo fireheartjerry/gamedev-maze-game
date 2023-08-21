@@ -5,7 +5,7 @@ from pygame.sprite import Sprite
 def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
     '''Returns a surface with text written on it'''
     font = pygame.font.Font("./static/gamefont.ttf", int(font_size))
-    surface = font.render(text, False, text_rgb, bg_rgb)
+    surface = font.render(text, True, text_rgb, bg_rgb)
     return surface.convert_alpha()
 
 class UIElement(Sprite):
