@@ -22,7 +22,10 @@ def main():
         if game_state == GameState.NEXT_LEVEL:
             player.level += 1
             game_state = play_level(screen, player)
-        
+
+        if game_state == GameState.CREDITS:
+            
+
         if game_state == GameState.RESET_POS:
             player.x = 0
             player.y = 35

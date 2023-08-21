@@ -1,5 +1,5 @@
 import pygame.font
-from modules.info import BLUE
+from modules.info import CYAN
 from pygame.sprite import Sprite
 
 
@@ -29,7 +29,7 @@ class UIElement(Sprite):
         )
 
         highlighted_image = create_surface_with_text(
-            text=text, font_size=font_size * 1.15, text_rgb=BLUE, bg_rgb=bg_rgb
+            text=text, font_size=font_size * 1.15, text_rgb=CYAN, bg_rgb=bg_rgb
         )
 
         self.images = [default_image, highlighted_image]
