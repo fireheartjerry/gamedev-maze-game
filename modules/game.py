@@ -1,6 +1,7 @@
-from modules.info import GameState, WHITE, BLACK
+from modules.info import GameState, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
 from modules.ui_element import UIElement
 from pygame.sprite import RenderUpdates
+from pygame.font import SysFont
 import pygame
 
 def title_screen(screen):
@@ -13,7 +14,7 @@ def title_screen(screen):
         A render of the `_game_loop()` internal function.
     """
     start_btn = UIElement(
-        center_position=(500, 150),
+        center_position=(SCREEN_WIDTH/2, 150),
         font_size=50,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -22,7 +23,7 @@ def title_screen(screen):
     )
 
     quit_btn = UIElement(
-        center_position=(500, 300),
+        center_position=(SCREEN_WIDTH/2, 300),
         font_size=50,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -31,7 +32,7 @@ def title_screen(screen):
     )
 
     creds_btn = UIElement(
-        center_position=(500, 450),
+        center_position=(SCREEN_WIDTH/2, 450),
         font_size=50,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -73,6 +74,29 @@ def play_level(screen, player):
 
     buttons = RenderUpdates(return_btn, reset_pos_btn)
 
+    return _game_loop(screen, buttons)
+
+def credits(screen):
+    """Handles the credits section of the game - shows developer names and version number.
+
+    Args:
+        `screen` - The screen which we use to draw sprites on.\n
+    """
+    return_btn = UIElement(
+        center_position=(80, 575),
+        font_size=20,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text="Go Back",
+        action=GameState.TITLE,
+    )
+
+    creds_font = SysFont("consolas", 15)
+    label = creds_font.render("Developers: fireheartjerry and greb-the-awesome\nVersion: 0.0.9 (Pre-alpha)\nStart dev work on 2023-08-19", True, WHITE)
+    text_rect = label.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+    screen.blit(label, text_rect)
+
+    buttons = RenderUpdates(return_btn)
     return _game_loop(screen, buttons)
 
 def _game_loop(screen, buttons):
