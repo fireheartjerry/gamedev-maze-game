@@ -2,17 +2,19 @@ import pygame.font
 from modules.info import CYAN
 from pygame.sprite import Sprite
 
-
-def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
+def get_text_surface(text, font_size, txt_rgb, bg_rgb, font, font_path=True):
     '''Returns a surface with text written on it'''
-    font = pygame.font.Font("./static/gamefont.ttf", int(font_size))
-    surface = font.render(text, True, text_rgb, bg_rgb)
+    if (font_path):
+        font_label = pygame.font.Font(font, int(font_size))
+    else:
+        font_label = pygame.font.SysFont(font, int(font_size))
+    surface = font_label.render(text, True, txt_rgb, bg_rgb)
     return surface.convert_alpha()
 
 class UIElement(Sprite):
     """ User interface element that can be added to a surface """
 
-    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None):
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None, btn=True, font="./static/gamefont.ttf", font_path=True):
         """
         Args:
             `center_position` - tuple (x, y) \n
@@ -24,13 +26,23 @@ class UIElement(Sprite):
         """
         self.mouse_over = False
 
-        default_image = create_surface_with_text(
-            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb
+        default_image = get_text_surface(
+            text=text,
+            font_size=font_size,
+            txt_rgb=text_rgb,
+            bg_rgb=bg_rgb,
+            font=font,
+            font_path=font_path
         )
 
-        highlighted_image = create_surface_with_text(
-            text=text, font_size=font_size * 1.15, text_rgb=CYAN, bg_rgb=bg_rgb
-        )
+        highlighted_image = get_text_surface(
+            text=text,
+            font_size=font_size * 1.15,
+            txt_rgb=CYAN,
+            bg_rgb=bg_rgb,
+            font=font,
+            font_path=font_path
+        ) if btn else default_image
 
         self.images = [default_image, highlighted_image]
         self.rects = [

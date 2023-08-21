@@ -1,8 +1,10 @@
 from modules.info import GameState, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
 from modules.ui_element import UIElement
 from pygame.sprite import RenderUpdates
-from pygame.font import SysFont
+from datetime import datetime
 import pygame
+
+CENTERED_WIDTH = SCREEN_WIDTH/2
 
 def title_screen(screen):
     """Title Screen Function - The main title screen of the game.
@@ -11,10 +13,10 @@ def title_screen(screen):
         `screen` - The screen which we use to draw sprites on.\n
 
     Returns:
-        A render of the `_game_loop()` internal function.
+        `_game_loop()` function call, which in turn returns a gamestate.
     """
     start_btn = UIElement(
-        center_position=(SCREEN_WIDTH/2, 150),
+        center_position=(CENTERED_WIDTH, 150),
         font_size=50,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -23,7 +25,7 @@ def title_screen(screen):
     )
 
     quit_btn = UIElement(
-        center_position=(SCREEN_WIDTH/2, 300),
+        center_position=(CENTERED_WIDTH, 300),
         font_size=50,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -32,12 +34,12 @@ def title_screen(screen):
     )
 
     creds_btn = UIElement(
-        center_position=(SCREEN_WIDTH/2, 450),
+        center_position=(CENTERED_WIDTH, 450),
         font_size=50,
         bg_rgb=None,
         text_rgb=WHITE,
         text="Credits",
-        action=GameState.QUIT,
+        action=GameState.CREDITS,
     )
 
     buttons = RenderUpdates(start_btn, quit_btn, creds_btn)
@@ -52,7 +54,7 @@ def play_level(screen, player):
         `player` - The player object (which is just a rectangle with stats).\n
 
     Returns:
-        A render of the `_game_loop()` internal function.
+        `_game_loop()` function call, which in turn returns a gamestate.
     """
     return_btn = UIElement(
         center_position=(80, 575),
@@ -76,11 +78,14 @@ def play_level(screen, player):
 
     return _game_loop(screen, buttons)
 
-def credits(screen):
+def game_credits(screen):
     """Handles the credits section of the game - shows developer names and version number.
 
     Args:
         `screen` - The screen which we use to draw sprites on.\n
+    
+    Returns:
+        `_game_loop()` function call, which in turn returns a gamestate.
     """
     return_btn = UIElement(
         center_position=(80, 575),
@@ -91,12 +96,51 @@ def credits(screen):
         action=GameState.TITLE,
     )
 
-    creds_font = SysFont("consolas", 15)
-    label = creds_font.render("Developers: fireheartjerry and greb-the-awesome\nVersion: 0.0.9 (Pre-alpha)\nStart dev work on 2023-08-19", True, WHITE)
-    text_rect = label.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
-    screen.blit(label, text_rect)
+    label_1 = UIElement(
+        center_position=(CENTERED_WIDTH, 100),
+        font_size=25,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text="Created by fireheartjerry and greb-the-awesome.",
+        btn=False,
+        font="Consolas",
+        font_path=False
+    )
 
-    buttons = RenderUpdates(return_btn)
+    label_2 = UIElement(
+        center_position=(CENTERED_WIDTH, 175),
+        font_size=25,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text="Version: 0.0.1 Pre-Alpha.",
+        btn=False,
+        font="Consolas",
+        font_path=False
+    )
+
+    label_3 = UIElement(
+        center_position=(CENTERED_WIDTH, 250),
+        font_size=25,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text="Started dev work on 2023 August 19th.",
+        btn=False,
+        font="Consolas",
+        font_path=False
+    )
+
+    label_4 = UIElement(
+        center_position=(CENTERED_WIDTH, 325),
+        font_size=25,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text=f"Copyright {datetime.now().year}, MIT License.",
+        btn=False,
+        font="Consolas",
+        font_path=False
+    )
+
+    buttons = RenderUpdates(return_btn, label_1, label_2, label_3, label_4)
     return _game_loop(screen, buttons)
 
 def _game_loop(screen, buttons):
@@ -105,6 +149,8 @@ def _game_loop(screen, buttons):
     Args:
         `screen` - The screen which we use to draw sprites on.\n
         `player` - The player object (which is just a rectangle with stats).\n
+    Returns:
+        A gamestate from the GameState enum.
     """
     while True:
         mouse_up = False

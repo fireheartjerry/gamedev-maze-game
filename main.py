@@ -1,5 +1,5 @@
 # imports
-from modules.game import title_screen, play_level
+from modules.game import title_screen, play_level, game_credits
 from modules.info import GameState, SCREEN_WIDTH, SCREEN_HEIGHT
 from modules.player import Player
 import pygame
@@ -24,7 +24,7 @@ def main():
             game_state = play_level(screen, player)
 
         if game_state == GameState.CREDITS:
-            game_state = credits(screen)
+            game_state = game_credits(screen)
 
         if game_state == GameState.RESET_POS:
             player.x = 0
