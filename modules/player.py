@@ -1,5 +1,3 @@
-from pygame.sprite import RenderUpdates
-
 class Player:
     """ Stores information about a player """
 
