@@ -6,7 +6,7 @@ import pygame
 
 def title_screen(screen):
     start_btn = UIElement(
-        center_position=(400, 400),
+        center_position=(500, 400),
         font_size=30,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -14,7 +14,7 @@ def title_screen(screen):
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(400, 500),
+        center_position=(500, 500),
         font_size=30,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -29,7 +29,7 @@ def title_screen(screen):
 
 def play_level(screen, player):
     return_btn = UIElement(
-        center_position=(140, 570),
+        center_position=(170, 570),
         font_size=20,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -38,7 +38,7 @@ def play_level(screen, player):
     )
 
     nextlevel_btn = UIElement(
-        center_position=(400, 400),
+        center_position=(500, 300),
         font_size=30,
         bg_rgb=None,
         text_rgb=WHITE,
