@@ -1,6 +1,7 @@
 import pygame
-from UIElement import UIElement
-from GameState import GameState
+from modules.ui_element import UIElement
+from modules.game_states import GameState
+from modules.player import Player
 
 # starting variables
 RED = (255, 0, 0)
@@ -86,7 +87,12 @@ def main():
             game_state = title_screen(screen)
 
         if game_state == GameState.NEWGAME:
-            game_state = play_level(screen)
+            player = Player()
+            game_state = play_level(screen, player)
+
+        if game_state == GameState.NEXT_LEVEL:
+            player.current_level += 1
+            game_state = play_level(screen, player)
 
         if game_state == GameState.QUIT:
             pygame.quit()
