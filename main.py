@@ -20,7 +20,7 @@ def main():
             game_state = play_level(screen, player)
 
         if game_state == GameState.NEXT_LEVEL:
-            player.current_level += 1
+            player.level += 1
             game_state = play_level(screen, player)
 
         if game_state == GameState.QUIT:

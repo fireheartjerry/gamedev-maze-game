@@ -42,7 +42,7 @@ def play_level(screen, player):
         font_size=30,
         bg_rgb=None,
         text_rgb=WHITE,
-        text=f"Next level ({player.current_level + 1})",
+        text=f"Next level ({player.level + 1})",
         action=GameState.NEXT_LEVEL,
     )
 
