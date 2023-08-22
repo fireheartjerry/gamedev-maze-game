@@ -9,7 +9,6 @@ class Player:
         self.level = level
         self.x = x
         self.y = y
-        self.hack = False
         self.body = pygame.Rect(x, y, 30, 30)
 
     def reset(self):
