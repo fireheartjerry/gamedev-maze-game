@@ -1,6 +1,6 @@
 from modules.game import title_screen, play_level, game_credits
 from modules.constants import GameState, SCREEN_WIDTH, SCREEN_HEIGHT, MAX_LEVEL
-from modules.player import Player
+from modules.elements import Player
 import pygame
 
 # main function
