@@ -1,4 +1,3 @@
-# imports
 from modules.game import title_screen, play_level, game_credits
 from modules.info import GameState, SCREEN_WIDTH, SCREEN_HEIGHT
 from modules.player import Player
