@@ -66,7 +66,7 @@ def play_level(screen, player):
     )
 
     reset_pos_btn = UIElement(
-        center_position=(275, 575),
+        center_position=(220, 575),
         font_size=20,
         bg_rgb=None,
         text_rgb=WHITE,
@@ -75,11 +75,11 @@ def play_level(screen, player):
     )
 
     next_lvl_btn = UIElement(
-        center_position=(900, 575),
+        center_position=(875, 575),
         font_size=20,
         bg_rgb=None,
         text_rgb=WHITE,
-        text=f"Next Level",
+        text=f"Go to Level { player.level + 1 }",
         action=GameState.NEXT_LEVEL,
     )
 
