@@ -1,4 +1,4 @@
-from modules.info import GameState, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
+from modules.constants import GameState, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
 from modules.ui_element import UIElement
 from pygame.sprite import RenderUpdates
 from datetime import datetime

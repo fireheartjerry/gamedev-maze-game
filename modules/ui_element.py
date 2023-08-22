@@ -1,5 +1,5 @@
 import pygame.font
-from modules.info import CYAN
+from modules.constants import CYAN
 from pygame.sprite import Sprite
 
 def get_text_surface(text, font_size, txt_rgb, bg_rgb, font, font_path=True):
