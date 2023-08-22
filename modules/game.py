@@ -1,4 +1,4 @@
-from modules.constants import GameState, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
+from modules.constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL
 from modules.ui_element import UIElement
 from pygame.sprite import RenderUpdates
 from datetime import datetime
@@ -73,14 +73,25 @@ def play_level(screen, player):
         text=f"Reset",
         action=GameState.RESET_POS,
     )
-
+    
+    next_lvl_text = ""
+    next_lvl_valid = False
+    x = 875
+    if (player.level < MAX_LEVEL):
+        next_lvl_valid = True
+        next_lvl_text = f"Go to Level { player.level+1 }"
+    else:
+        next_lvl_text = "Max Level"
+        x = 915
+    
     next_lvl_btn = UIElement(
-        center_position=(875, 575),
+        center_position=(x, 575),
         font_size=20,
         bg_rgb=None,
         text_rgb=WHITE,
-        text=f"Go to Level { player.level + 1 }",
+        text=next_lvl_text,
         action=GameState.NEXT_LEVEL,
+        btn=next_lvl_valid
     )
 
     buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn)

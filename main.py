@@ -1,5 +1,5 @@
 from modules.game import title_screen, play_level, game_credits
-from modules.constants import GameState, SCREEN_WIDTH, SCREEN_HEIGHT
+from modules.constants import GameState, SCREEN_WIDTH, SCREEN_HEIGHT, MAX_LEVEL
 from modules.player import Player
 import pygame
 
@@ -19,7 +19,8 @@ def main():
             game_state = play_level(screen, player)
 
         if game_state == GameState.NEXT_LEVEL:
-            player.level += 1
+            if (player.level < MAX_LEVEL):
+                player.level += 1
             game_state = play_level(screen, player)
 
         if game_state == GameState.CREDITS:
