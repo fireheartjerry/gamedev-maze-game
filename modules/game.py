@@ -66,15 +66,24 @@ def play_level(screen, player):
     )
 
     reset_pos_btn = UIElement(
-        center_position=(875, 575),
+        center_position=(275, 575),
         font_size=20,
         bg_rgb=None,
         text_rgb=WHITE,
-        text=f"Reset Player",
+        text=f"Reset",
+        action=GameState.RESET_POS,
+    )
+
+    next_lvl_btn = UIElement(
+        center_position=(900, 575),
+        font_size=20,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text=f"Next Level",
         action=GameState.NEXT_LEVEL,
     )
 
-    buttons = RenderUpdates(return_btn, reset_pos_btn)
+    buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn)
 
     return _game_loop(screen, buttons)
 
@@ -156,7 +165,7 @@ def _game_loop(screen, buttons):
         mouse_up = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                return GameState.QUIT
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
         screen.fill(BLACK)

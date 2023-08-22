@@ -7,3 +7,7 @@ class Player:
         self.x = x
         self.y = y
         self.hack = False
+
+    def reset(self):
+        self.x = 0
+        self.y = 35

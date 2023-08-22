@@ -26,8 +26,7 @@ def main():
             game_state = game_credits(screen)
 
         if game_state == GameState.RESET_POS:
-            player.x = 0
-            player.y = 35
+            player.reset()
 
         if game_state == GameState.QUIT:
             pygame.quit()
