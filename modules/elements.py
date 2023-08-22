@@ -2,7 +2,7 @@ import pygame
 from constants import RED
 
 class Player:
-    """ Stores information about a player """
+    """ Player class, the user-controlled part of the game. """
 
     def __init__(self, lives=3, level=1, x=0, y=35):
         self.lives = lives
@@ -17,6 +17,8 @@ class Player:
         self.y = 35
 
 class Wall(pygame.Rect):
+    """A maze wall, another vital aspect of the game
+    """
     def __init__(self, x, y, width, height, colour=RED):
         super().__init__(x, y, width, height)
         self.colour = colour
@@ -26,7 +28,7 @@ class Wall(pygame.Rect):
         Set the colour of the maze wall.
 
         Args:
-            `colour` (tuple): A tuple representing the RGB colour.
+            `colour` (`tuple`): A tuple representing the RGB colour.
         """
         self.colour = colour
 
@@ -35,11 +37,13 @@ class Wall(pygame.Rect):
         Draw the maze wall on a given pygame surface.
 
         Args:
-            `surface` (pygame.Surface): The surface to draw the wall on.
+            `surface` (`pygame.Surface`): The surface to draw the wall on.
         """
         pygame.draw.rect(surface, self.colour, self)
 
 class Maze:
+    """Maze class, main element of game.
+    """
     def __init__(self):
         self.walls = []  # List to store MazeWall objects
         self.start = None  # Starting position in the maze
@@ -47,30 +51,30 @@ class Maze:
 
     def add_wall(self, wall):
         """
-        Add a MazeWall object to the maze.
+        Add a `Wall` object to the maze.
 
         Args:
-            wall (MazeWall): The MazeWall object to add.
+            wall (`Wall`): The MazeWall object to add.
         """
         self.walls.append(wall)
 
-    def set_start(self, x, y):
+    def set_start_pos(self, x, y):
         """
         Set the starting position in the maze.
 
         Args:
-            `x` (int): The x-coordinate of the starting position.
-            `y` (int): The y-coordinate of the starting position.
+            `x` (`int`): The x-coordinate of the starting position.\n
+            `y` (`int`): The y-coordinate of the starting position.
         """
         self.start = (x, y)
 
-    def set_end(self, x, y):
+    def set_end_pos(self, x, y):
         """
         Set the ending position in the maze.
 
         Args:
-            `x` (int): The x-coordinate of the ending position.
-            `y` (int): The y-coordinate of the ending position.
+            `x` (`int`): The x-coordinate of the ending position.\n
+            `y` (`int`): The y-coordinate of the ending position.
         """
         self.end = (x, y)
 
@@ -92,7 +96,7 @@ class Maze:
             `player`: An instance of the player class
 
         Returns:
-            bool: True if the player is not touching a wall, False otherwise.
+            `bool`: True if the player is not touching a wall, False otherwise.
         """
         if (hack):
             return True
