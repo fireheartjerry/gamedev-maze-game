@@ -44,10 +44,10 @@ class Wall(pygame.Rect):
 class Maze:
     """Maze class, main element of game.
     """
-    def __init__(self):
-        self.walls = []  # List to store MazeWall objects
-        self.start = None  # Starting position in the maze
-        self.end = None    # Ending position in the maze
+    def __init__(self, walls=[], start=(0, 0), end=(0, 0)):
+        self.walls = walls
+        self.start = start
+        self.end = end
 
     def add_wall(self, wall):
         """
