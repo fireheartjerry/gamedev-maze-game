@@ -1,5 +1,5 @@
 import pygame
-from constants import RED
+from .constants import RED
 
 class Player:
     """ Player class, the user-controlled part of the game. """

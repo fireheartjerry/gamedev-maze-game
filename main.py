@@ -2,6 +2,8 @@ from modules.game import title_screen, play_level, game_credits
 from modules.constants import GameState, SCREEN_WIDTH, SCREEN_HEIGHT, MAX_LEVEL
 from modules.elements import Player
 import pygame
+import os
+os.chdir("C:/Users/wangh/Documents/skool/game dev club")
 
 # main function
 def main():
@@ -28,6 +30,7 @@ def main():
 
         if game_state == GameState.RESET_POS:
             player.reset()
+            game_state = GameState.NEWGAME
 
         if game_state == GameState.QUIT:
             pygame.quit()
