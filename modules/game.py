@@ -1,8 +1,9 @@
-from modules.constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL
-from modules.ui_element import UIElement
+from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL
+from .ui_element import UIElement
+import pygame
+from .generate import Levels
 from pygame.sprite import RenderUpdates
 from datetime import datetime
-import pygame
 
 CENTERED_WIDTH = SCREEN_WIDTH/2
 
@@ -96,7 +97,7 @@ def play_level(screen, player):
 
     buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn)
 
-    return _game_loop(screen, buttons)
+    return _game_loop(screen, buttons, Levels.LEVEL1)
 
 def game_credits(screen):
     """Handles the credits section of the game - shows developer names and version number.
@@ -163,12 +164,13 @@ def game_credits(screen):
     buttons = RenderUpdates(return_btn, label_1, label_2, label_3, label_4)
     return _game_loop(screen, buttons)
 
-def _game_loop(screen, buttons):
+def _game_loop(screen, buttons, maze = None):
     """Handles game loop until an action is return by a button in the buttons sprite renderer.
 
     Args:
         `screen` - The screen which we use to draw sprites on.\n
         `player` - The player object (which is just a rectangle with stats).\n
+        `maze` - The maze to render and do stuff.\n
     Returns:
         A gamestate from the GameState enum.
     """
@@ -185,6 +187,9 @@ def _game_loop(screen, buttons):
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if ui_action is not None:
                 return ui_action
+        
+        if maze is not None:
+            maze.draw(screen)
 
         buttons.draw(screen)
         pygame.display.flip()
