@@ -7,6 +7,10 @@ from datetime import datetime
 from enum import Enum
 
 class Levels:
-    LEVEL1 = Maze([
-        Wall(0, 0, 100, 100)
-    ], (0, 0), (600, 800))
+    LEVELS = [
+        Maze([
+            Wall(126, 67, 229, 148),
+            Wall(96, 183, 234, 229)
+        ], (0, 0), (600, 800)),
+        # Maze([])
+    ]
