@@ -97,7 +97,7 @@ def play_level(screen, player):
 
     buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn)
 
-    return _game_loop(screen, buttons, Levels.LEVEL1)
+    return _game_loop(screen, buttons, Levels.LEVELS[player.level-1])
 
 def game_credits(screen):
     """Handles the credits section of the game - shows developer names and version number.
