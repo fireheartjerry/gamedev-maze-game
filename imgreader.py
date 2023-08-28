@@ -1,9 +1,7 @@
 import PIL.Image, PIL.ImageTk
-import time
-import math
+
 from tkinter import *
 from tkinter import filedialog
-import sys
 
 # stylesheet
 buttonStylesheet = {
@@ -19,13 +17,13 @@ root.geometry("400x300+100+100")
 root.title("MapDesigner v0.0.1")
 
 def openFile():
-	root.fileName = filedialog.askopenfilename(initialdir = "C:/Users/wangh/Documents/Jerry/python/flask", title = "Open Image",
+	root.fileName = filedialog.askopenfilename(initialdir = "./", title = "Open Image",
 		filetypes = ((
 		"JPG Files", "*.jpg"), ("PNG Files", "*.png"), ("BMP Files", "*.bmp"), ("All Files", "*")))
 	if root.fileName: # chose a file
 		uploadButtonBig.destroy()
 		previewImg = PIL.Image.open(root.fileName)
-		previewImg = previewImg.resize((root.winfo_width() - 30, root.winfo_height() - 50), PIL.Image.ANTIALIAS)
+		previewImg = previewImg.resize((root.winfo_width() - 30, root.winfo_height() - 50), PIL.Image.LANCZOS)
 
 		previewImgTk = PIL.ImageTk.PhotoImage(previewImg)
 
@@ -50,14 +48,9 @@ def getKeys(d):
 def processImg(img):
 	im = PIL.Image.open(img) # Can be many different formats.
 	pixs = im.load()
-	width = im.size[0]
-	height = im.size[1]
-	numOfPixs = width * height
-	logs = []
-	advancedLogs = []
-
+	width, height = im.size
+	logs, advancedLogs = [], []
 	colorsIncomplete = {}
-	pixColors = {}
 	finalList = ""
 
 
@@ -147,9 +140,11 @@ def startEditor():
 
 def placeWall():
 	currentTool[0] = "placewall"
+
 def deleteWallTool():
 	currentTool[0] = "deletewall"
-def removeElement(e):
+
+def removeElement():
 	if len(rects) == 0:
 		return
 	canv.delete(rects.pop())
