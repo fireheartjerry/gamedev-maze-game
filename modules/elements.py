@@ -41,9 +41,16 @@ class Wall(pygame.Rect):
         pygame.draw.rect(surface, self.colour, self)
 
 class Maze:
-    """Maze class, main element of game.
+    """Maze class, main element of game.\n
+        Args:\n
+            `walls` (list, optional): A list of the maze walls. Defaults to [].\n
+            `start` (tuple, optional): Start position. Defaults to (0, 0).\n
+            `end` (tuple, optional): End position. Defaults to (0, 0).
     """
     def __init__(self, walls=[], start=(0, 0), end=(0, 0)):
+        """
+
+        """        
         self.walls = walls
         self.start = start
         self.end = end
