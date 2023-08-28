@@ -12,15 +12,18 @@ class Player:
     """
 
     def __init__(self, lives=3, level=1, x=0, y=35):
-        self.lives = lives
-        self.level = level
-        self.x = x
-        self.y = y
+        self.lives, self.level = lives, level
+        self.x = self.dx = x
+        self.y = self.dy = y
         self.body = pygame.Rect(x, y, 30, 30)
 
     def reset(self):
-        self.x = 0
-        self.y = 35
+        """
+            Reset player position to default x and y
+        """
+
+        self.x = self.dx
+        self.y = self.dy
 
 class Wall(pygame.Rect):
     """
@@ -32,20 +35,23 @@ class Wall(pygame.Rect):
             `height` (int): height of hte wall\n
             `colour` (tuple(int, int, int), optional): Wall color. Defaults to RED.\n
     """
+
     def __init__(self, x, y, width, height, colour=RED):   
         super().__init__(x, y, width, height)
         self.colour = colour
     
     def set_colour(self, colour):
         """
-        Set the colour of the maze wall.
+            Set the colour of the maze wall.
         """
+
         self.colour = colour
 
     def draw(self, surface):
         """
-        Draw the maze wall on a given pygame surface.
+            Draw the maze wall on a given pygame surface.
         """
+
         pygame.draw.rect(surface, self.colour, self)
 
 class Maze:
@@ -56,43 +62,46 @@ class Maze:
             `start` (tuple, optional): Start position. Defaults to (0, 0).\n
             `end` (tuple, optional): End position. Defaults to (0, 0).
     """
-    def __init__(self, walls=[], start=(0, 0), end=(0, 0)):
-        """
 
-        """        
+    def __init__(self, walls=[], start=(0, 0), end=(0, 0)):    
         self.walls = walls
         self.start = start
         self.end = end
 
     def add_wall(self, wall):
         """
-        Add a `Wall` object to the maze.
+            Add a `Wall` object to the maze.
         """
+
         self.walls.append(wall)
 
     def set_start_pos(self, x, y):
         """
-        Set the starting position in the maze.
+            Set the starting position in the maze.
         """
+
         self.start = (x, y)
 
     def set_end_pos(self, x, y):
         """
-        Set the ending position in the maze.
+            Set the ending position in the maze.
         """
+
         self.end = (x, y)
 
     def draw(self, surface):
         """
-        Draw the maze walls on a given pygame surface.
+            Draw the maze walls on a given pygame surface.
         """
+
         for wall in self.walls:
             wall.draw(surface)
 
     def touching(self, player, hack=False):
         """
-        Check if a position (x, y) is valid within the maze.
+            Check if a position (x, y) is valid within the maze.
         """
+
         if (hack):
             return False
         return (any(wall.colliderect(player.body) for wall in self.walls))
