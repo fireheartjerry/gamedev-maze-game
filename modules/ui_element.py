@@ -3,11 +3,11 @@ from .constants import CYAN
 from pygame.sprite import Sprite
 
 def get_text_surface(text, font_size, txt_rgb, bg_rgb, font, font_path=True):
-    '''Returns a surface with text written on it'''
-    if (font_path):
-        font_label = pygame.font.Font(font, int(font_size))
-    else:
-        font_label = pygame.font.SysFont(font, int(font_size))
+    """
+        Returns a surface with text written on it.
+    """
+
+    font_label = pygame.font.Font(font, int(font_size)) if font_path else pygame.font.SysFont(font, int(font_size))
     surface = font_label.render(text, True, txt_rgb, bg_rgb)
     return surface.convert_alpha()
 
@@ -55,7 +55,6 @@ class UIElement(Sprite):
 
         # assign button action
         self.action = action
-
         super().__init__()
 
     # properties that vary the image and its rect when the mouse is over the element
@@ -68,9 +67,10 @@ class UIElement(Sprite):
         return self.rects[1] if self.mouse_over else self.rects[0]
 
     def update(self, mouse_pos, mouse_up):
-        """ Updates the `mouse_over` variable and returns the button's
-            action value when clicked.
         """
+            Updates the `mouse_over` variable and returns the button's action value when clicked.
+        """
+
         if self.rect.collidepoint(mouse_pos):
             self.mouse_over = True
             if mouse_up:
@@ -79,5 +79,8 @@ class UIElement(Sprite):
             self.mouse_over = False
 
     def draw(self, surface):
-        """ Draws element onto a surface """
+        """
+            Draws element onto a surface
+        """
+
         surface.blit(self.image, self.rect)
