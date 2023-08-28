@@ -98,5 +98,5 @@ class Maze:
             `bool`: True if the player is not touching a wall, False otherwise.
         """
         if (hack):
-            return True
+            return False
         return (any(wall.colliderect(player.body) for wall in self.walls))
