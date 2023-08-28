@@ -12,18 +12,21 @@ def get_text_surface(text, font_size, txt_rgb, bg_rgb, font, font_path=True):
     return surface.convert_alpha()
 
 class UIElement(Sprite):
-    """ User interface element that can be added to a surface """
-
-    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None, btn=True, font="./static/gamefont.ttf", font_path=True):
-        """
+    """ User interface element that can be added to a surface\n    
+         
         Args:
             `center_position` - tuple (x, y) \n
             `text` - string of text to write \n
             `font_size` - int \n
             `bg_rgb` (background colour) - tuple (r, g, b) \n
             `text_rgb` (text colour) - tuple (r, g, b) \n
-            `action` - the gamestate change associated with this button
-        """
+            `action` - the gamestate change associated with this button\n
+            `btn` - whether this should be a button or not (hoverable)\n
+            `font` - the text font displayed with this\n
+            `font_path` - whether or not the font is custom (use font path or not)\n
+    """
+
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None, btn=True, font="./static/gamefont.ttf", font_path=True):
         self.mouse_over = False
 
         default_image = get_text_surface(
