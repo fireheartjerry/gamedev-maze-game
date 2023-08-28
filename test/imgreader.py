@@ -61,12 +61,12 @@ def processImg(img):
 
 			if (len(currentColor) == 4 and currentColor[3] != 0) or currentColor[0] != 255 and currentColor[1] != 255 and currentColor[2] != 255: # so it's not transparent
 				advancedLogs.append(
-					f"[ADVANCEDLOGS]: non-transparent pixel found. coords: {currentPos}, color: {currentColor}\n")
+					f"[ADVANCED LOGS]: non-transparent pixel found. coords: {currentPos}, color: {currentColor}\n")
 
 				if currentColor in getKeys(colorsIncomplete): # so the color has already occured
 					colorsIncomplete[currentColor].append(currentPos)
 					advancedLogs.append(
-						f"[ADVANCEDLOGS]: non-transparent pixel of the same color {currentColor} has already occured\n")
+						f"[ADVANCED LOGS]: non-transparent pixel of the same color {currentColor} has already occured\n")
 
 					if len(colorsIncomplete[currentColor]) == 4: # 4 of the same color occured, ready to spit out a wall
 						poses = colorsIncomplete[currentColor]
@@ -75,17 +75,14 @@ def processImg(img):
 						wallY = min(poses[0][1], poses[1][1], poses[2][1], poses[3][1])
 						wallWidth = max(poses[0][0], poses[1][0], poses[2][0], poses[3][0])
 						wallHeight = max(poses[0][1], poses[1][1], poses[2][1], poses[3][1])
-						advancedLogs.append(
-							f"[ADVANCEDLOGS]: wall ready. wallX = {wallX}, wallY = {wallY}, wall\
-							Width = {wallWidth}, wallHeight = {wallHeight}\n")
+						advancedLogs.append(f"[ADVANCED LOGS]: wall ready. wallX = {wallX}, wallY = {wallY}, wallWidth = {wallWidth}, wallHeight = {wallHeight}\n")
 						finalList += "Wall({}, {}, {}, {}),\n".format(
 							wallX, wallY, wallWidth, wallHeight)
-
 						del colorsIncomplete[currentColor]
 
 				else: # so the color is new
 					colorsIncomplete[currentColor] = [currentPos]
-					advancedLogs.append("[ADVANCEDLOGS]: non-transparent pixel color was new\n")
+					advancedLogs.append("[ADVANCED LOGS]: non-transparent pixel color was new\n")
 	root.finalList = finalList
 	if True:
 		root.advancedLogs = advancedLogs
@@ -99,37 +96,35 @@ def processImg(img):
 # Buttons and other w's
 
 # Upload File
-uploadButtonBig = Button(root, text = "Scan Image (very broken, don't use)", width = 50, height = 3, command = openFile,
-	**buttonStylesheet)
-uploadButtonBig.pack(padx = 10, pady = 10)
+uploadButtonBig = Button(root, text="Scan Image (very broken, don't use)", width=50, height=3, command=openFile, **buttonStylesheet)
+uploadButtonBig.pack(padx=10, pady=10)
 
 # After Image Selected
-imgPreviewFrame = LabelFrame(root, text = "Preview", padx = 10, pady = 10)
+imgPreviewFrame = LabelFrame(root, text="Preview", padx=10, pady=10)
 previewLabel = Label(imgPreviewFrame)
-previewLabel.grid(row = 0, column = 0, rowspan = 5, columnspan = 5)
-okButton = Button(imgPreviewFrame, text = "Ok", command = lambda: processImg(root.fileName), **buttonStylesheet)
-okButton.grid(row = 6, column = 1)
-cancelButton = Button(imgPreviewFrame, text = "Cancel", command = goBack, **buttonStylesheet)
-cancelButton.grid(row = 6, column = 4)
+previewLabel.grid(row=0, column=0, rowspan=5, columnspan=5)
 
-imgOptionsFrame = LabelFrame(root, text = "Options", padx = 10, pady = 10)
+okButton = Button(imgPreviewFrame, text="Ok", command=lambda: processImg(root.fileName), **buttonStylesheet)
+okButton.grid(row=6, column=1)
+
+cancelButton = Button(imgPreviewFrame, text="Cancel", command=goBack, **buttonStylesheet)
+cancelButton.grid(row=6, column=4)
+imgOptionsFrame = LabelFrame(root, text="Options", padx=10, pady=10)
 
 # after processed
-resFrame = LabelFrame(root, text = "Results", padx = 10, pady = 10)
-logsLabel = Label(resFrame, text = "Logs")
-logsLabel.pack(padx = 10, pady = 5)
-logsText = Text(resFrame, height = 10, font = ("Calibri", 11))
+resFrame = LabelFrame(root, text="Results", padx=10, pady=10)
+logsLabel = Label(resFrame, text="Logs")
+logsLabel.pack(padx=10, pady=5)
+logsText = Text(resFrame, height=10, font=("Calibri", 11))
 logsText.pack()
 
-# section 2: designer thingy
+# TODO section 2: designer thingy
 
 # map designer thingy
 canv = Canvas(root, width=800, height=600)
 canv.create_rectangle(5, 5, 795, 595)
-currentTool = ["none"]
-prevclick = [False, False]
-rects = []
-data = []
+currentTool, prevclick = ["none"], [False, False]
+rects, data = [], []
 
 def startEditor():
 	uploadButtonBig.destroy()
@@ -169,11 +164,11 @@ def onclick(event):
 				break
 
 
-designButton = Button(root, text = "Use In-App Editor", width = 50, height = 10, command = startEditor,
-	**buttonStylesheet)
+designButton = Button(root, text = "Use In-App Editor", width = 50, height = 10, command = startEditor, **buttonStylesheet)
 setButton = Button(root, text = "Wall Tool", command = placeWall, **buttonStylesheet)
 delButton = Button(root, text = "Delete Wall Tool", command = deleteWallTool, **buttonStylesheet)
 designButton.pack(padx = 10, pady = 10)
+
 canv.bind("<Button-1>", onclick)
 root.bind("<z>", removeElement)
 root.bind("<Control-p>", lambda _: print(data))
