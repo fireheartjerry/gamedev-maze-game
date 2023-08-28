@@ -19,7 +19,7 @@ class Player:
 
     def reset(self):
         """
-            Reset player position to default x and y
+            Reset player position to default x and y.
         """
 
         self.x = self.dx
