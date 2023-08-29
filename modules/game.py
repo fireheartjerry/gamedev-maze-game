@@ -1,4 +1,4 @@
-from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL, GREEN
+from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL, GREEN, CLOCK
 from .ui_element import UIElement
 import pygame
 from .generate import Levels
@@ -219,11 +219,11 @@ def _game_loop(screen, buttons, player = None, maze = None):
         keys = pygame.key.get_pressed()
 
         screen.fill(BLACK)
-
+        CLOCK.tick()
         if maze is not None:
             maze.draw(screen)
         if player is not None:
-            player.update(maze.walls, buttons, screen)
+            player.update(maze.walls, buttons, screen, CLOCK.get_fps())
             player.draw(screen)
 
         for button in buttons:

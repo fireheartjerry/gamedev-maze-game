@@ -12,7 +12,7 @@ class Player:
         self.speed = 0.2
         self.body = pygame.Rect(x, y, 30, 30)
 
-    def update(self, walls, buttons, surface):
+    def update(self, walls, buttons, surface, fps):
         """
         Update the player. (Should be called every frame)
 
@@ -26,7 +26,7 @@ class Player:
                 if wall.kind == "lose":
                     self.reset()
                 elif wall.kind == "ice":
-                    self.speed = 0.5
+                    self.speed = 340/fps
                 elif wall.kind == "win":
                     from .game import win_screen
                     win_screen(surface, buttons, self)
@@ -39,7 +39,7 @@ class Player:
             self.x -= self.speed
         if keys[pygame.K_d]:
             self.x += self.speed
-        self.speed = 0.2
+        self.speed = 120/fps
 
     def draw(self, surface):
         """
