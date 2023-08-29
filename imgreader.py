@@ -12,28 +12,40 @@ def gethex():
 
 # stylesheet
 buttonStylesheet = {
-	"bg" : "#c9c9c9",
+	"bg" : "#888888",
+	"fg": "#EEEEEE",
 	"relief" : "flat",
-	"activebackground" : "#b0b0b0",
+	"activebackground" : "#000000",
+	"activeforeground": "#FFFFFF",
 	"font" : ("Calibri", 15)
+}
+
+labelStyleSheet = {
+	"bg": "#000000",
+	"fg": "#FFFFFF",
 }
 
 # gui setup
 root = Tk()
 root.geometry("400x300+100+100")
 root.state("zoomed")
+root.configure(bg="black")
 root.title("MapDesigner v0.0.1")
 
 # map designer thingy
-canv = Canvas(root, width=800, height=600)
-toolFrame = Frame(root)
+canv = Canvas(root, width=1000, height=600, bg="black")
+toolFrame = Frame(root, bg="black")
 canv.create_rectangle(5, 5, 795, 595)
-toolLabel = Label(root, text="Select a tool to begin.", font=("Calibri", 20))
+toolLabel = Label(root, text="Select a tool to begin.", font=("Calibri", 20), **labelStyleSheet)
 currentTool = ["none"]
-prevclick = [False, False]
+prevclick = [False, False, False]
 rects = []
 data = []
-colors = {}
+colors = {
+	"lose": "red",
+	"win": "green",
+	"ice": "aqua"
+}
 
 def startEditor():
 	designButton.destroy()
@@ -70,6 +82,7 @@ def onclick(event):
 		if prevclick[0] is False:
 			prevclick[0] = event.x
 			prevclick[1] = event.y
+			prevclick[2] = canv.create_oval(event.x-3, event.y-3, event.x+3, event.y+3, fill="white")
 		else:
 			name = configMenu[1].get(1.0, "end-1c")
 			col = "#000000"
@@ -83,6 +96,7 @@ def onclick(event):
 				max(prevclick[0], event.x) - min(prevclick[0], event.x), max(prevclick[1], event.y) - min(prevclick[1], event.y),
 				configMenu[1].get(1.0, "end-1c")])
 			prevclick[0] = False
+			canv.delete(prevclick[2])
 	elif currentTool[0] == "deletewall":
 		for i in range(0, len(data)):
 			if 0 < event.x - data[i][0] < data[i][2] and 0 < event.y - data[i][1] < data[i][3]:
@@ -97,7 +111,7 @@ designButton = Button(root, text = "Use In-App Editor", width = 50, height = 10,
 setButton = Button(toolFrame, text = "Wall Tool", command = placeWall, **buttonStylesheet)
 delButton = Button(toolFrame, text = "Delete Wall Tool", command = deleteWallTool, **buttonStylesheet)
 helpButton = Button(toolFrame, text="Help", command = helpTool, **buttonStylesheet)
-configMenu = (Label(toolFrame, text="Wall Type:"), Text(toolFrame, height=1, width=20))
+configMenu = (Label(toolFrame, text="Wall Type:", **labelStyleSheet), Text(toolFrame, height=1, width=20))
 designButton.pack(padx = 10, pady = 10)
 canv.bind("<Button-1>", onclick)
 root.bind("<z>", removeElement)

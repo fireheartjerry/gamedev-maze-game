@@ -219,6 +219,9 @@ def _game_loop(screen, buttons, player = None, maze = None):
         keys = pygame.key.get_pressed()
 
         screen.fill(BLACK)
+
+        if maze is not None:
+            maze.draw(screen)
         if player is not None:
             player.update(maze.walls, buttons, screen)
             player.draw(screen)
@@ -227,9 +230,6 @@ def _game_loop(screen, buttons, player = None, maze = None):
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if ui_action is not None:
                 return ui_action
-        
-        if maze is not None:
-            maze.draw(screen)
 
         buttons.draw(screen)
         pygame.display.flip()

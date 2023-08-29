@@ -21,6 +21,15 @@ class Player:
             `buttons`: A sprite group of buttons
             `surface`: The surface to draw onto
         """
+        for wall in walls:
+            if self.body.colliderect(wall):
+                if wall.kind == "lose":
+                    self.reset()
+                elif wall.kind == "ice":
+                    self.speed = 0.5
+                elif wall.kind == "win":
+                    from .game import win_screen
+                    win_screen(surface, buttons, self)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             self.y -= self.speed
@@ -30,14 +39,7 @@ class Player:
             self.x -= self.speed
         if keys[pygame.K_d]:
             self.x += self.speed
-        for wall in walls:
-            if self.body.colliderect(wall):
-                if wall.kind == "lose":
-                    self.reset()
-                elif wall.kind == "win":
-                    from .game import win_screen
-                    win_screen(surface, buttons, self)
-                break
+        self.speed = 0.2
 
     def draw(self, surface):
         """
@@ -57,8 +59,17 @@ class Player:
 class Wall(pygame.Rect):
     """A maze wall, another vital aspect of the game
     """
-    def __init__(self, x, y, width, height, colour=RED, kind="lose"):
+    def __init__(self, x, y, width, height, colour=None, kind="lose"):
         super().__init__(x, y, width, height)
+        if colour is None:
+            if kind == "lose":
+                colour = RED
+            elif kind == "win":
+                colour = GREEN
+            elif kind == "ice":
+                colour = CYAN
+            else:
+                colour = RED
         self.colour = colour
         self.kind = kind
 
