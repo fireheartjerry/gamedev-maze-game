@@ -10,7 +10,7 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 
 # Game constants
-MAX_LEVEL = 5
+MAX_LEVEL = 1
 
 class GameState(Enum):
     """An GameState class, which is an extension of the Enum class, containing different game states such as quit, title screen, next level, etc...

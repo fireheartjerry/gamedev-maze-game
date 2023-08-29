@@ -1,5 +1,5 @@
 import pygame
-from .constants import RED
+from .constants import *
 
 class Player:
     """ Player class, the user-controlled part of the game. """
@@ -9,19 +9,59 @@ class Player:
         self.level = level
         self.x = x
         self.y = y
+        self.speed = 0.2
         self.body = pygame.Rect(x, y, 30, 30)
 
+    def update(self, walls, buttons, surface):
+        """
+        Update the player. (Should be called every frame)
+
+        Args:
+            `walls`: A list of Wall objects
+            `buttons`: A sprite group of buttons
+            `surface`: The surface to draw onto
+        """
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.y -= self.speed
+        if keys[pygame.K_s]:
+            self.y += self.speed
+        if keys[pygame.K_a]:
+            self.x -= self.speed
+        if keys[pygame.K_d]:
+            self.x += self.speed
+        for wall in walls:
+            if self.body.colliderect(wall):
+                if wall.kind == "lose":
+                    self.reset()
+                elif wall.kind == "win":
+                    from .game import win_screen
+                    win_screen(surface, buttons, self)
+                break
+
+    def draw(self, surface):
+        """
+        Draw the player.
+        """
+        self.body.x = self.x
+        self.body.y = self.y
+        pygame.draw.rect(surface, GREEN, self.body)
+
     def reset(self):
+        """
+        Reset the player to the starting position.
+        """
         self.x = 0
         self.y = 35
 
 class Wall(pygame.Rect):
     """A maze wall, another vital aspect of the game
     """
-    def __init__(self, x, y, width, height, colour=RED):
+    def __init__(self, x, y, width, height, colour=RED, kind="lose"):
         super().__init__(x, y, width, height)
         self.colour = colour
-    
+        self.kind = kind
+
     def set_colour(self, colour):
         """
         Set the colour of the maze wall.
