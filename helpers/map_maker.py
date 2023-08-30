@@ -33,6 +33,7 @@ canv.create_rectangle(5, 5, 795, 595)
 toolLabel = Label(root, text="Select a tool to begin.", font=("Calibri", 20), **LABEL_STYLESHEET)
 currentTool = ["none"]
 prevclick = [False, False, False]
+data_updated = True
 rects = []
 data = []
 colours = {
@@ -77,6 +78,7 @@ def delElement():
         messagebox.showerror("Error", str(e))
 
 def onclick(event):
+    global data_updated
     try:
         if currentTool[0] == "placewall":
             if prevclick[0] is False:
@@ -104,13 +106,20 @@ def onclick(event):
                     data.pop(i)
                     rects.pop(i)
                     break
+        data_updated = False
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
 def showData():
+    if not data_updated:
+        messagebox.showwarning("Data not Updated", "You have not updated the wall data\nUpdate it by clicking the \"Update Wall Data\" button.")
+        return
     try:
         msg = ""
         display_data = get_walls()
+        if not display_data:
+            messagebox.showwarning("No Walls", "You have not placed any walls down.")
+            return
         for val in display_data:
             msg += str(val)+"\n"
         messagebox.showinfo("Walls", msg)
@@ -119,9 +128,11 @@ def showData():
         messagebox.showerror("Error", str(e))
 
 def updateData():
+    global data_updated
     try:
         update_walls(data)
         toolLabel.config(text="Wall Data Successfully Updated")
+        data_updated = True
         messagebox.showinfo("Success", "Successfully updated data.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
