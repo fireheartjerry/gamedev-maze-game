@@ -1,4 +1,5 @@
 from enum import Enum
+from pygame.time import Clock
 
 # Pygame constants
 RED = (255, 0, 0)
@@ -10,7 +11,8 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 
 # Game constants
-MAX_LEVEL = 5
+MAX_LEVEL = 1
+CLOCK = Clock()
 
 class GameState(Enum):
     """An GameState class, which is an extension of the Enum class, containing different game states such as quit, title screen, next level, etc...

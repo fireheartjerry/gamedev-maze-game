@@ -1,11 +1,45 @@
-from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL
+from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL, GREEN, CLOCK
 from .ui_element import UIElement
 import pygame
 from .generate import Levels
 from pygame.sprite import RenderUpdates
 from datetime import datetime
 
+
 CENTERED_WIDTH = SCREEN_WIDTH/2
+
+def win_screen(screen, buttons, player):
+    """Win Screen Function - When you complete a level.
+    
+    Args:
+        `screen` - The screen which we use to draw sprites on.\n
+
+    Returns:
+        None
+    """
+    if player.level < MAX_LEVEL:
+        next_level_btn = UIElement(
+            center_position=(400, 300),
+            font_size=60,
+            bg_rgb=None,
+            text_rgb=WHITE,
+            text="You Win!\nClick to advance.",
+            action=GameState.NEXT_LEVEL,
+            btn=True
+        )
+        buttons.add(next_level_btn)
+    else:
+       max_level_btn = UIElement(
+            center_position=(400, 300),
+            font_size=30,
+            bg_rgb=None,
+            text_rgb=GREEN,
+            text="You have completed the max level!\nCongrats",
+            action=GameState.CREDITS,
+            btn=True
+        )
+       buttons.add(max_level_btn)
+
 
 def title_screen(screen):
     """Title Screen Function - The main title screen of the game.
@@ -97,7 +131,7 @@ def play_level(screen, player):
 
     buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn)
 
-    return _game_loop(screen, buttons, Levels.LEVELS[player.level-1])
+    return _game_loop(screen, buttons, player, Levels.LEVELS[player.level-1])
 
 def game_credits(screen):
     """Handles the credits section of the game - shows developer names and version number.
@@ -164,7 +198,7 @@ def game_credits(screen):
     buttons = RenderUpdates(return_btn, label_1, label_2, label_3, label_4)
     return _game_loop(screen, buttons)
 
-def _game_loop(screen, buttons, maze = None):
+def _game_loop(screen, buttons, player = None, maze = None):
     """Handles game loop until an action is return by a button in the buttons sprite renderer.
 
     Args:
@@ -181,15 +215,21 @@ def _game_loop(screen, buttons, maze = None):
                 return GameState.QUIT
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+        
+        keys = pygame.key.get_pressed()
+
         screen.fill(BLACK)
+        CLOCK.tick()
+        if maze is not None:
+            maze.draw(screen)
+        if player is not None:
+            player.update(maze.walls, buttons, screen, CLOCK.get_fps())
+            player.draw(screen)
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if ui_action is not None:
                 return ui_action
-        
-        if maze is not None:
-            maze.draw(screen)
 
         buttons.draw(screen)
         pygame.display.flip()

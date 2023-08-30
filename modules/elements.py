@@ -1,5 +1,5 @@
 import pygame
-from .constants import RED
+from .constants import *
 
 class Player:
     """
@@ -15,7 +15,45 @@ class Player:
         self.lives, self.level = lives, level
         self.x = self.dx = x
         self.y = self.dy = y
+        self.speed = 0.2
         self.body = pygame.Rect(x, y, 30, 30)
+
+    def update(self, walls, buttons, surface, fps):
+        """
+        Update the player. (Should be called every frame)
+
+        Args:
+            `walls`: A list of Wall objects
+            `buttons`: A sprite group of buttons
+            `surface`: The surface to draw onto
+        """
+        for wall in walls:
+            if self.body.colliderect(wall):
+                if wall.kind == "lose":
+                    self.reset()
+                elif wall.kind == "ice":
+                    self.speed = 340/fps
+                elif wall.kind == "win":
+                    from .game import win_screen
+                    win_screen(surface, buttons, self)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.y -= self.speed
+        if keys[pygame.K_s]:
+            self.y += self.speed
+        if keys[pygame.K_a]:
+            self.x -= self.speed
+        if keys[pygame.K_d]:
+            self.x += self.speed
+        self.speed = 120/fps
+
+    def draw(self, surface):
+        """
+        Draw the player.
+        """
+        self.body.x = self.x
+        self.body.y = self.y
+        pygame.draw.rect(surface, GREEN, self.body)
 
     def reset(self):
         """
@@ -36,10 +74,20 @@ class Wall(pygame.Rect):
             `colour` (tuple(int, int, int), optional): Wall color. Defaults to RED.\n
     """
 
-    def __init__(self, x, y, width, height, colour=RED):   
+    def __init__(self, x, y, width, height, colour=None, kind="lose"):   
         super().__init__(x, y, width, height)
+        if colour is None:
+            if kind == "lose":
+                colour = RED
+            elif kind == "win":
+                colour = GREEN
+            elif kind == "ice":
+                colour = CYAN
+            else:
+                colour = RED
         self.colour = colour
-    
+        self.kind = kind
+
     def set_colour(self, colour):
         """
             Set the colour of the maze wall.
