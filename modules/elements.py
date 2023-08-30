@@ -63,7 +63,7 @@ class Wall(pygame.Rect):
             `y` (int): y position.\n
             `width` (int): width of the wall.\n
             `height` (int): height of hte wall\n
-            `colour` (tuple(int, int, int), optional): Wall color. Defaults to RED.\n
+            `colour` (tuple(int, int, int), optional): Wall colour. Defaults to RED.\n
     """
 
     def __init__(self, x, y, width, height, colour=None, kind="lose"):   

@@ -11,6 +11,6 @@ Then some other things happen which we will explain in much more depth in the cl
 ## imgreader.py
 This is a map maker program. The prompts will guide you through the usage of this program.
 Wall types:
-- "win": green color, win the level
-- "lose": red color, if the player touches this they will reset
-- "ice": aqua color, makes player go faster and hard to control
+- "win": green colour, win the level
+- "lose": red colour, if the player touches this they will reset
+- "ice": aqua colour, makes player go faster and hard to control

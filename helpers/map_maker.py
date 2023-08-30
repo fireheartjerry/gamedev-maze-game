@@ -38,7 +38,7 @@ currentTool = ["none"]
 prevclick = [False, False, False]
 rects = []
 data = []
-colors = {
+colours = {
     "lose": "#FF0000",
     "win": "#00FF00",
     "ice": "#88FFFF"
@@ -90,14 +90,14 @@ def onclick(event):
         else:
             name = configMenu[1].get(1.0, "end-1c")
             col = "#000000"
-            if name in colors:
-                col = colors[name]
+            if name in colours:
+                col = colours[name]
             else:
                 col = gethex()
-                colors[name] = col
+                colours[name] = col
             rects.append(canv.create_rectangle(prevclick[0], prevclick[1], event.x, event.y, fill=col))
             data.append([min(prevclick[0], event.x), min(prevclick[1], event.y),
-                max(prevclick[0], event.x) - min(prevclick[0], event.x), max(prevclick[1], event.y) - min(prevclick[1], event.y),
+                max(prevclick[0], event.x)-min(prevclick[0], event.x), max(prevclick[1], event.y)-min(prevclick[1], event.y),
                 configMenu[1].get(1.0, "end-1c")])
             prevclick[0] = False
             canv.delete(prevclick[2])
@@ -111,6 +111,9 @@ def onclick(event):
 
 def showData():
     messagebox.showinfo("Boxes", repr(data))
+
+def updateData():
+    update_walls(data)
 
 designButton = Button(root, text = "Use In-App Editor", width = 50, height = 10, command = startEditor,
     **BTN_STLYLESHEET)
