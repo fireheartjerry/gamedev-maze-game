@@ -1,6 +1,7 @@
 from random import randint
 from tkinter import *
 from tkinter import messagebox
+from wall_generator import editWalls
 
 def gethex():
 	return "#%02x%02x%02x" % (randint(0, 255), randint(0, 255), randint(0, 255))

@@ -15,7 +15,7 @@ MAX_LEVEL = 1
 CLOCK = Clock()
 
 class GameState(Enum):
-    """An GameState class, which is an extension of the Enum class, containing different game states such as quit, title screen, next level, etc...
+    """A GameState class, which is an extension of the Enum class, containing different game states such as quit, title screen, next level, etc...
     """
     QUIT = -1
     TITLE = 0
