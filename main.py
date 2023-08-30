@@ -3,7 +3,7 @@ from modules.constants import GameState, SCREEN_WIDTH, SCREEN_HEIGHT, MAX_LEVEL
 from modules.elements import Player
 import pygame
 import os
-os.chdir("C:/Users/wangh/Documents/skool/game dev club")
+os.chdir(".")
 
 # main function
 def main():

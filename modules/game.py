@@ -189,7 +189,7 @@ def game_credits(screen):
         font_size=25,
         bg_rgb=None,
         text_rgb=WHITE,
-        text=f"Copyright {datetime.now().year}, MIT License.",
+        text=f"Copyright 2023-{datetime.now().year}, MIT License.",
         btn=False,
         font="Consolas",
         font_path=False
