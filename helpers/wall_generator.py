@@ -6,3 +6,6 @@ def update(new_walls):
 
 def print_walls():
     print(wallData)
+
+def get_walls():
+    return wallData

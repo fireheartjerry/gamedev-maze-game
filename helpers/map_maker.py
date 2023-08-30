@@ -1,13 +1,13 @@
 from random import randint
 from tkinter import *
 from tkinter import messagebox
-from wall_generator import editWalls
+from wall_generator import update
 
 def gethex():
 	return "#%02x%02x%02x" % (randint(0, 255), randint(0, 255), randint(0, 255))
 
 # stylesheet
-buttonStylesheet = {
+BTN_STLYLESHEET = {
     "bg" : "#888888",
     "fg": "#EEEEEE",
     "relief" : "flat",
@@ -16,7 +16,7 @@ buttonStylesheet = {
     "font" : ("Calibri", 15)
 }
 
-labelStyleSheet = {
+LABEL_STYLESHEET = {
     "bg": "#000000",
     "fg": "#FFFFFF",
     "relief" : "flat"
@@ -33,15 +33,15 @@ root.title("MapDesigner v0.0.1")
 canv = Canvas(root, width=1000, height=600, bg="black")
 toolFrame = Frame(root, bg="black")
 canv.create_rectangle(5, 5, 795, 595)
-toolLabel = Label(root, text="Select a tool to begin.", font=("Calibri", 20), **labelStyleSheet)
+toolLabel = Label(root, text="Select a tool to begin.", font=("Calibri", 20), **LABEL_STYLESHEET)
 currentTool = ["none"]
 prevclick = [False, False, False]
 rects = []
 data = []
 colors = {
-	"lose": "red",
-	"win": "green",
-	"ice": "aqua"
+	"lose": "#FF0000",
+	"win": "#00FF00",
+	"ice": "#88FFFF"
 }
 
 def startEditor():
@@ -59,9 +59,11 @@ def startEditor():
 def placeWall():
 	currentTool[0] = "placewall"
 	toolLabel.config(text="Current Tool: Place Wall Tool")
+
 def deleteWallTool():
 	currentTool[0] = "deletewall"
 	toolLabel.config(text="Current Tool: Delete Wall Tool")
+
 def helpTool():
 	messagebox.showinfo("Help", """
 Select a tool to get started.
@@ -106,19 +108,19 @@ def onclick(event):
                 rects.pop(i)
                 break
 
-def printData():
-    print(data)
+def showData():
+	messagebox.showinfo("Boxes", repr(data))
 
 designButton = Button(root, text = "Use In-App Editor", width = 50, height = 10, command = startEditor,
-	**buttonStylesheet)
-setButton = Button(toolFrame, text = "Wall Tool", command = placeWall, **buttonStylesheet)
-delButton = Button(toolFrame, text = "Delete Wall Tool", command = deleteWallTool, **buttonStylesheet)
-helpButton = Button(toolFrame, text = "Help", command = helpTool, **buttonStylesheet)
-printDataButton = Button(toolFrame, text = "Print Wall Data", command = printData, **buttonStylesheet)
-configMenu = (Label(toolFrame, text="Wall Type:", **labelStyleSheet), Text(toolFrame, height=1, width=20))
+	**BTN_STLYLESHEET)
+setButton = Button(toolFrame, text = "Wall Tool", command = placeWall, **BTN_STLYLESHEET)
+delButton = Button(toolFrame, text = "Delete Wall Tool", command = deleteWallTool, **BTN_STLYLESHEET)
+helpButton = Button(toolFrame, text = "Help", command = helpTool, **BTN_STLYLESHEET)
+printDataButton = Button(toolFrame, text = "Show Wall Data", command = showData, **BTN_STLYLESHEET)
+configMenu = (Label(toolFrame, text="Wall Type:", **LABEL_STYLESHEET), Text(toolFrame, height=1, width=20))
 designButton.pack(padx = 10, pady = 10)
 canv.bind("<Button-1>", onclick)
 root.bind("<z>", delElement)
-root.bind("<Control-p>", printData)
+root.bind("<Control-p>", lambda _: print(data))
 
 root.mainloop()
