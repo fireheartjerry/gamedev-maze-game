@@ -2,6 +2,8 @@ from random import randint
 from tkinter import *
 from tkinter import messagebox
 from wall_generator import update_walls, get_walls
+import socket
+print(socket.gethostbyname(socket.gethostname()))
 
 # Stylesheets
 BTN_STLYLESHEET = {
@@ -137,6 +139,9 @@ def updateData():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
+def openMapMaker():
+    root.mainloop()
+
 setButton = Button(toolFrame, text = "Wall Tool", command = placeWall, **BTN_STLYLESHEET)
 delButton = Button(toolFrame, text = "Delete Wall Tool", command = deleteWallTool, **BTN_STLYLESHEET)
 helpButton = Button(toolFrame, text = "Help", command = helpTool, **BTN_STLYLESHEET)
@@ -159,4 +164,4 @@ canv.bind("<Button-1>", onclick)
 root.bind("<z>", delElement)
 root.bind("<Control-p>", lambda _: print(data))
 
-root.mainloop()
+openMapMaker()

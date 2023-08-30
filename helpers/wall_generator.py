@@ -12,8 +12,5 @@ def update_walls(new):
     global wallData
     wallData = [{"wall_data": wall[0:4], "colour": getColour(wall[4])} for wall in new]
 
-def print_walls():
-    print(wallData)
-
 def get_walls():
     return wallData
