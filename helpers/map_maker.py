@@ -3,10 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 from wall_generator import update_walls, get_walls
 
-def gethex():
-    return "#%02x%02x%02x" % (randint(0, 255), randint(0, 255), randint(0, 255))
-
-# stylesheet
+# Stylesheets
 BTN_STLYLESHEET = {
     "bg" : "#888888",
     "fg": "#EEEEEE",
@@ -22,14 +19,14 @@ LABEL_STYLESHEET = {
     "relief" : "flat"
 }
 
-# gui setup
+# GUI setup
 root = Tk()
 root.geometry("400x300+100+100")
 root.state("zoomed")
 root.configure(bg="black")
-root.title("MapDesigner v0.0.1")
+root.title("MapDesigner v0.0.2")
 
-# map designer thingy
+# Starting Variables
 canv = Canvas(root, width=1000, height=600, bg="black")
 toolFrame = Frame(root, bg="black")
 canv.create_rectangle(5, 5, 795, 595)
@@ -44,17 +41,8 @@ colours = {
     "ice": "#88FFFF"
 }
 
-def initiate():
-    toolLabel.pack()
-    canv.pack()
-    toolFrame.pack()
-    setButton.grid(row=0, column=0, padx=5, pady=10)
-    delButton.grid(row=0, column=1, padx=5, pady=10)
-    configMenu[0].grid(row=1, column=0, padx=1, pady=5)
-    configMenu[1].grid(row=1, column=1, padx=1, pady=5)
-    helpButton.grid(row=0, column=2, padx=5, pady=10)
-    printDataButton.grid(row=0, column=3, padx=5, pady=10)
-    updateDataButton.grid(row=0, column=4, padx=5, pady=10)
+def getRandomColor():
+    return "#%02x%02x%02x" % (randint(0, 255), randint(0, 255), randint(0, 255))
 
 def placeWall():
     try:
@@ -101,7 +89,7 @@ def onclick(event):
                 if name in colours:
                     col = colours[name]
                 else:
-                    col = gethex()
+                    col = getRandomColor()
                     colours[name] = col
                 rects.append(canv.create_rectangle(prevclick[0], prevclick[1], event.x, event.y, fill=col))
                 data.append([min(prevclick[0], event.x), min(prevclick[1], event.y),
@@ -138,14 +126,24 @@ def updateData():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-initiate()
 setButton = Button(toolFrame, text = "Wall Tool", command = placeWall, **BTN_STLYLESHEET)
 delButton = Button(toolFrame, text = "Delete Wall Tool", command = deleteWallTool, **BTN_STLYLESHEET)
 helpButton = Button(toolFrame, text = "Help", command = helpTool, **BTN_STLYLESHEET)
 printDataButton = Button(toolFrame, text = "Show Wall Data", command = showData, **BTN_STLYLESHEET)
 updateDataButton = Button(toolFrame, text = "Update Wall Data", command = updateData, **BTN_STLYLESHEET)
-
 configMenu = (Label(toolFrame, text="Wall Type:", **LABEL_STYLESHEET), Text(toolFrame, height=1, width=20))
+
+toolLabel.pack()
+canv.pack()
+toolFrame.pack()
+setButton.grid(row=0, column=0, padx=5, pady=10)
+delButton.grid(row=0, column=1, padx=5, pady=10)
+configMenu[0].grid(row=1, column=0, padx=1, pady=5)
+configMenu[1].grid(row=1, column=1, padx=1, pady=5)
+helpButton.grid(row=0, column=2, padx=5, pady=10)
+printDataButton.grid(row=0, column=3, padx=5, pady=10)
+updateDataButton.grid(row=0, column=4, padx=5, pady=10)
+
 canv.bind("<Button-1>", onclick)
 root.bind("<z>", delElement)
 root.bind("<Control-p>", lambda _: print(data))
