@@ -2,8 +2,6 @@ from random import randint
 from tkinter import *
 from tkinter import messagebox
 from wall_generator import update_walls, get_walls
-import socket
-print(socket.gethostbyname(socket.gethostname()))
 
 # Stylesheets
 BTN_STLYLESHEET = {
