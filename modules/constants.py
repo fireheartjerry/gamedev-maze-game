@@ -22,3 +22,4 @@ class GameState(Enum):
 	NEXT_LEVEL = 2
 	CREDITS = 3
 	RESET_POS = 4
+	WINSCREEN = 5

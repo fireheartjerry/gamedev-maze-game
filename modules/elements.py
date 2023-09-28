@@ -1,5 +1,7 @@
 import pygame
 from .constants import *
+from .ui_element import Timer
+import time
 
 class Player:
     """Player class, the user-controlled part of the game.\n
@@ -16,6 +18,13 @@ class Player:
         self.y = self.dy = y
         self.speed = 0.2
         self.body = pygame.Rect(x, y, 30, 30)
+        self.timer = Timer(
+            center_position=(700,15),
+            font_size=30,
+            bg_rgb=WHITE,
+            text_rgb=BLACK,
+            text="Timer starts on first action",
+        )
 
     def update(self, walls, buttons, surface, fps):
         """Update the player. (Should be called every frame)
@@ -28,22 +37,31 @@ class Player:
         for wall in walls:
             if self.body.colliderect(wall):
                 if wall.kind == "lose":
+                    pass
                     self.reset()
                 elif wall.kind == "ice":
                     self.speed = 340/fps
                 elif wall.kind == "win":
-                    from .game import win_screen
-                    win_screen(surface, buttons, self)
+                    # you win! break out of game loop
+                    return GameState.WINSCREEN
         keys = pygame.key.get_pressed()
+        something_pressed = False
         if keys[pygame.K_w]:
+            something_pressed = True
             self.y -= self.speed
         if keys[pygame.K_s]:
             self.y += self.speed
+            something_pressed = True
         if keys[pygame.K_a]:
             self.x -= self.speed
+            something_pressed = True
         if keys[pygame.K_d]:
             self.x += self.speed
+            something_pressed = True
         self.speed = 120/fps
+
+        if something_pressed and self.timer.timestarted == -1:
+            self.timer.start()
 
     def draw(self, surface):
         """Draw the player."""

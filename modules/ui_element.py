@@ -1,5 +1,6 @@
 import pygame.font
 from .constants import CYAN
+import time
 from pygame.sprite import Sprite
 
 def get_text_surface(text, font_size, txt_rgb, bg_rgb, font, font_path=True):
@@ -75,3 +76,64 @@ class UIElement(Sprite):
 	def draw(self, surface):
 		"""Draws element onto a surface"""
 		surface.blit(self.image, self.rect)
+
+class Timer(Sprite):
+	"""
+	A timer (for speedrunning purpose)
+	"""
+	def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, font="./static/gamefont.ttf", font_path=True):
+		self.default_image = get_text_surface(
+			text=text,
+			font_size=font_size,
+			txt_rgb=text_rgb,
+			bg_rgb=bg_rgb,
+			font=font,
+			font_path=font_path
+		)
+		self.font_size = font_size
+		self.text_rgb = text_rgb
+		self.bg_rgb = bg_rgb
+		self.font = font
+		self.font_path = font_path
+		self.drect = self.default_image.get_rect(center=center_position)
+		self.timestarted = -1
+		self.text = text
+		super().__init__()
+	@property
+	def image(self):
+		return self.default_image
+
+	@property
+	def rect(self):
+		return self.drect
+
+	def update(self, mouse_pos, mouse_up):
+		"""Updates the time."""
+		if self.timestarted == -1:
+			self.default_image = get_text_surface(
+				text=self.text,
+				font_size=self.font_size,
+				txt_rgb=self.text_rgb,
+				bg_rgb=self.bg_rgb,
+				font=self.font,
+				font_path=self.font_path
+			)
+		else:
+			self.default_image = get_text_surface(
+				text=str(time.time() - self.timestarted),
+				font_size=self.font_size,
+				txt_rgb=self.text_rgb,
+				bg_rgb=self.bg_rgb,
+				font=self.font,
+				font_path=self.font_path
+			)
+
+	def draw(self, surface):
+		"""Draws element onto a surface"""
+		surface.blit(self.image, self.drect)
+	def start(self):
+		self.timestarted = time.time()
+	def reset(self):
+		self.timestarted = -1
+	def get_elapsed(self):
+		return time.time() - self.timestarted

@@ -1,4 +1,4 @@
-from modules.game import title_screen, play_level, game_credits
+from modules.game import title_screen, play_level, game_credits, win_screen
 from modules.constants import GameState, SCREEN_WIDTH, SCREEN_HEIGHT, MAX_LEVEL
 from modules.elements import Player
 import pygame
@@ -31,6 +31,9 @@ def main():
         if game_state == GameState.RESET_POS:
             player.reset()
             game_state = GameState.NEWGAME
+        
+        if game_state == GameState.WINSCREEN:
+            game_state = win_screen(screen, player)
 
         if game_state == GameState.QUIT:
             pygame.quit()
