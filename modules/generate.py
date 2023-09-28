@@ -5,12 +5,12 @@ _stuff = [[151, 5, 56, 484, 'lose'], [155, 542, 46, 54, 'lose'], [283, 112, 43, 
 _2 = []
 
 for x in _stuff:
-    _2.append(Wall(x[0], x[1], x[2], x[3], None, x[4]))
+	_2.append(Wall(x[0], x[1], x[2], x[3], None, x[4]))
 
 
 
 class Levels:
-    LEVELS = [
-        Maze(_2, (0, 0), (600, 800)),
-        # Maze([])
-    ]
+	LEVELS = [
+		Maze(_2, (0, 0), (600, 800)),
+		# Maze([])
+	]

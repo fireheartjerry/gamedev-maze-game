@@ -1,14 +1,13 @@
-from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL, GREEN, CLOCK
+from .constants import GameState, WHITE, BLACK, SCREEN_WIDTH, MAX_LEVEL, GREEN, CLOCK, CYAN
 from .ui_element import UIElement
 import pygame
 from .generate import Levels
 from pygame.sprite import RenderUpdates
 from datetime import datetime
 
-
 CENTERED_WIDTH = SCREEN_WIDTH/2
 
-def win_screen(screen, buttons, player):
+def win_screen(screen, player):
     """Win Screen Function - When you complete a level.
     
     Args:
@@ -17,6 +16,7 @@ def win_screen(screen, buttons, player):
     Returns:
         None
     """
+    buttons = RenderUpdates()
     if player.level < MAX_LEVEL:
         next_level_btn = UIElement(
             center_position=(400, 300),
@@ -29,16 +29,28 @@ def win_screen(screen, buttons, player):
         )
         buttons.add(next_level_btn)
     else:
-       max_level_btn = UIElement(
-            center_position=(400, 300),
-            font_size=30,
-            bg_rgb=None,
-            text_rgb=GREEN,
-            text="You have completed the max level!\nCongrats",
-            action=GameState.CREDITS,
-            btn=True
-        )
-       buttons.add(max_level_btn)
+        max_level_btn = UIElement(
+                center_position=(500, 300),
+                font_size=30,
+                bg_rgb=None,
+                text_rgb=GREEN,
+                text="You have completed the max level!\nCongrats",
+                action=GameState.CREDITS,
+                btn=True
+            )
+        buttons.add(max_level_btn)
+    
+    time_btn = UIElement(
+        center_position=(500, 400),
+        font_size=30,
+        bg_rgb=None,
+        text_rgb=WHITE,
+        text="Your time was: " + str(player.timer.get_elapsed()) + " seconds.",
+        btn=False
+    )
+    buttons.add(time_btn)
+
+    return _game_loop(screen, buttons)
 
 
 def title_screen(screen):
@@ -46,10 +58,19 @@ def title_screen(screen):
 
     Args:
         `screen` - The screen which we use to draw sprites on.\n
-
+c
     Returns:
         `_game_loop()` function call, which in turn returns a gamestate.
     """
+    name_btn = UIElement(
+        center_position = (CENTERED_WIDTH, 60),
+        font_size=75,
+        bg_rgb=None,
+        text_rgb=GREEN,
+        text="Maze Game!",
+        action=None,
+        btn=False
+    )
     start_btn = UIElement(
         center_position=(CENTERED_WIDTH, 150),
         font_size=50,
@@ -77,7 +98,7 @@ def title_screen(screen):
         action=GameState.CREDITS,
     )
 
-    buttons = RenderUpdates(start_btn, quit_btn, creds_btn)
+    buttons = RenderUpdates(start_btn, quit_btn, creds_btn, name_btn)
 
     return _game_loop(screen, buttons)
 
@@ -129,7 +150,7 @@ def play_level(screen, player):
         btn=next_lvl_valid
     )
 
-    buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn)
+    buttons = RenderUpdates(return_btn, reset_pos_btn, next_lvl_btn, player.timer)
 
     return _game_loop(screen, buttons, player, Levels.LEVELS[player.level-1])
 
@@ -223,13 +244,18 @@ def _game_loop(screen, buttons, player = None, maze = None):
         if maze is not None:
             maze.draw(screen)
         if player is not None:
-            player.update(maze.walls, buttons, screen, CLOCK.get_fps())
+            ret = player.update(maze.walls, buttons, screen, CLOCK.get_fps())
             player.draw(screen)
+            if ret is not None:
+                return ret
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if ui_action is not None:
                 return ui_action
+        
+        # update the timer
+        
 
         buttons.draw(screen)
         pygame.display.flip()
